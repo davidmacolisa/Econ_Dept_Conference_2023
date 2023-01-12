@@ -1,28 +1,29 @@
-\documentclass[12pt, article]{article}
+\documentclass[12pt, english]{article}
 
-\usepackage[utf8]{inputenc}
+%\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{pdfrender, latexcolors}
-\usepackage{parskip}
-\usepackage{booktabs}
-\usepackage{graphicx}
+\usepackage{pdfrender, latexcolors} % to darken fonts
+\usepackage[backend = biber, style = authoryear-icomp, citestyle = apa]{biblatex}
+\usepackage{hyperref} % for reference links
+\hypersetup{colorlinks = true, citecolor = blue, linkcolor = blue, urlcolor = blue}
+\newcommand{\shortlink}[1]{\href{https://www.#1}{\texttt{#1}}}
+%\renewcommand{\finentrypunct}{}
+\usepackage{parskip} % for paragraphing
+\usepackage{booktabs} % booktabs table options
+\usepackage{graphicx} % adding graphics
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{mathrsfs}
-\usepackage{lscape}
-\usepackage{float}
+\usepackage{lscape} % for landscaping items and pages
+\usepackage{float} % for table positioning
+\usepackage{pdfpages}
 \usepackage{geometry}
 \usepackage{scrextend}
-\geometry{papersize = {9in, 11in}, left = 3cm, right = 3cm, top = 2.5cm, bottom = 2.5cm}
-\usepackage{hyphenat}
-%\newcommand{-}{\hyp{}}
+\usepackage{import}
+\geometry{papersize = {9in, 11in}, left = 2.5cm, right = 2.5cm, top = 2.5cm, bottom = 2.5cm}
+\usepackage[doublespacing]{setspace}
 
-\usepackage[backend = biber, style = authoryear-icomp, citestyle = apa]{biblatex}
-\usepackage{hyperref}
-\hypersetup{colorlinks = true, citecolor = blue, linkcolor = blue, urlcolor = white}
-\newcommand{\shortlink}[1]{\href{https://www.#1}{\texttt{#1}}}
-\renewcommand{\finentrypunct}{}
 
 
 \title{Pandemic Effects on Nigerian Informal Sector: Evidence from Robust Bayessian Meta-Analysis}
@@ -35,42 +36,195 @@
     \newpage
     \tableofcontents
 
-
+    \newpage
     \abstract
     \newpage
 
 
-    \section{RoBMA Model}
+    \section{RoBMA and Custom Beliefs}\label{sec2.3:robma-custom-beliefs}
+    Bayesian model averaging meta-analysis requires that effect sizes, $y_k$ in $k = 1, \dots, K$ primary studies follow a gaussian distribution with mean treatment effect, $\mu$, and between-study heterogeneity, $\tau$~\parencite{bartos2021bma}. This enables the determination of the size of the $\mu$ and $\tau$, as well as testing hypotheses of evidence in favour of the presence or absence of the effect and heterogeneity. The robust bayesian meta-analysis with publication selection model averaging methods are used, whilst the incorporation of existing literature findings (custom beliefs) are used to address these hypotheses here. This RoBMA method further tests and accounts for publications bias, $\omega$, which may confound the true effect~\parencite{maier2022, bartos2021}. Following~\parencite{maier2022, bartos2021}, we use the BMA framework to specify the meta-analytic model, $\mathbf{M}: (\mathsf{M_0}, \mathsf{M_1})$ as follows:
+
+    \begin{align}
+        \mathsf{M_0}: \mu &= \tau = 0 \label{equ1:bma-null-model} \\
+        \mathsf{M_1}: \mu &\neq \tau \neq 0 \label{equ2:bma-alt-model}
+    \end{align}
+
+    where $\mathsf{M_0} \text{ and } \mathsf{M_1}$ denote the null and alternative models, respectively. Assuming no publication bias, we use the model likelihood function, $\pi \left(\mathcal{D} | \beta, \mathbf{M} \right)$, to specify the default bayesian prior distibutions of $y_k$ as follows:
+
+    \begin{equation}
+        \label{equ3:bayesian-priors}
+        y_k \sim \Phi \left (\mu, \tau^{2} + \sigma_k^{2} \right),
+    \end{equation}
+
+    where $\beta$ is the model parameter and $\sigma_k^2$ is the standard error of $y_k$~\footnote{For a comprehensive framework of the Bayesian model Averaging (see~\parencite{fragoso2018, gronau2021, hinne2020}. $\mathcal{D}$ denotes $y_k$ and the sample sizes can be used in place of $\sigma_k^{2}$ (see~\cite{bem2011}).}. Given the null model, $\mathsf{M_0}$, equation~\ref{equ3:bayesian-priors} simplifies to $y_k \sim \Phi(\sigma_k^{2})$ such that the treatment effect and heterogeneity is zero. Also, for the alternative model, $\mathsf{M_1}$, equation~\ref{equ3:bayesian-priors} follows a standard normal distribution for the treatment effect, $\mu \sim \Phi(0,1)$, and the inverse-gamma distribution for the between-study heterogeneity, $\tau \sim \gamma^{-1}(1,0.15)$. To incorporate custom or literature beliefs in the alternative model, we set the prior distributions of the effect to be a function of the first and second moments of $y_k$.
+
+    \subsection{Publication Bias Adjustments}\label{subsec1.0.1:publication-bias-adjustments}
+    To adjust for publication bias, RoBMA-PSMA combines the methods of the selection methods from the RoBMA-2W model~\parencite{maier2022} and PET-PEESE methods from the RoBMA-PP model~\parencite{bartos2021, bartos2022}. Whilst the selection method adjusts for the bias stemming from the probability values, the PET-PEESE method addresses small study bias by correcting the relationship between effect sizes and the standard error or variances.
+
+    Then, the RoBMA-2W model uses the weighted likelihood function to incorporate the publication probabilities, $\omega$, into the likelihood function for the observed effect sizes,
+
+    \begin{equation}
+        \label{equ4:robma-2w}
+        y_k \sim \lambda\Phi \left(\mu, \tau^{2} + \sigma_k^{2}, \omega \right)
+    \end{equation}
+
+    where $\lambda \Phi$ denotes the likelihood function of a weighted normal distribution, with mean effect $\mu$, variance $\sigma^2$, weights $\omega \sim \text{Cummulative-Dirichlet}(1,1,1)$ which follows a cumulative sum of Dirichlet distribution. The standard normal distribution $\Phi$ is further differentiated when either the one-sided or two-sided selection is assumed.
+
+    \begin{align}
+        \lambda\Phi_{one-sided}(y | \mu, \sigma^{2}, \omega) &= \frac{\Phi(y | \mu, \sigma^{2}) w(\omega, \rho, c)}{\int \left(x | \mu, \sigma^{2}) w(\omega, 1 - \Phi(\frac{x}{\sigma}), c \right) dx} \label{equ5:robma-2w-sel} \\
+        \lambda\Phi_{two-sided}(y | \mu, \sigma^{2}, \omega) &= \frac{\Phi(y | \mu, \sigma^{2}) w(\omega, \rho,  c)}{\int \left(x | \mu, \sigma^{2}) w(\omega, 1 - \Phi(\frac{x}{\sigma}), 2c \right) dx} \label{equ6:robma-2w-sel}
+    \end{align}
+
+    where the weights $\omega$, are assigned based on the one or two-sided p-values, $\rho$, and $n$ cutoffs, $c$, through the weight function $w$. That is:
+
+    \begin{equation}
+        \begin{split}
+            \label{equ7:robma-2w-cutoffs}
+            w(\omega, \rho, c) &= \omega_1 \text{ if } \rho > c_1; \\
+            w(\omega, \rho, c) &= \omega_n \text{ if } c_n < \rho \leqslant c_{n + 1}; \\
+            &\dots \\
+            w(\omega, \rho, c) &= 1 \text{ if } \rho \leqslant c_N \\
+        \end{split}
+    \end{equation}
+
+    For the complete alternative model, $\mathsf{M_1}$, the default prior distributions for the $\mu$, $\tau$ and $\omega$ are maintained in equations (\ref{equ5:robma-2w-sel} and~\ref{equ6:robma-2w-sel}). Otherwise, they simplify to the null model given equation~\ref{equ1:bma-null-model}. Unlike the RoBMA-2W, in which the weight functions $w(\omega, \rho, c) = 0.05, 0.05 \text{ \& } 0.10$~\parencite{maier2022}, the RoBMA-PSMA extends this to include $w(\omega,\rho, c) = 0.05, 0.025 \text{ \& } 0.05, 0.05 \text{ \& } 0.50, \break 0.025 \text{ \& } 0.05\text{ \& }0.50$~\parencite{bartos2022}.
+
+    Furthermore, RoBMA-PSMA incorporates the regression parameters PET-PEESE publication bias adjustments from from the RoBMA-PP model~\parencite{bartos2021, bartos2022} into equation~\ref{equ4:robma-2w}, specifying both the null and alternative model. The RoBMA-PP model is often superior to the RoBMA-2W models~\parencites{kvarven2020,cartermccullough2014,moreno2009}. Again, given $\mathsf{M_1}$, we maintain the default prior distributions for $\mu$ and $\tau$ and then use the $\text{Cauchy}_{(0, \infty)} (0,1)$ and $\text{Cauchy}_{(0, \infty)} (0,5)$, as the default prior distributions for the PET-PEESE regression coefficients~\parencites{bartos2022, stanleydoucouliagos2014}.
+
+    \begin{align}
+        y_k & \sim \text{N} \left(\mu+ \text{\textit{PET}} \cdotp \sigma_k, \tau^{2} + \sigma_k^{2} \right) \label{equ8:robam-pp} \\
+        y_k & \sim \text{N} \left(\mu+ \text{\textit{PET}} \cdotp \sigma_k^2, \tau^{2} + \sigma_k^{2} \right) \label{equ9:robma-pp}
+    \end{align}
+
+    Therefore, assuming the presence and absence of the effect and heterogeneity, the RoBMA-PSMA combines the six weight functions in RoBMA-2W models with the RoBMA-PP models to yield a total of $24$ and $8$, respectively from equations~\ref{equ5:robma-2w-sel}, ~\ref{equ6:robma-2w-sel}, ~\ref{equ8:robam-pp} and ~\ref{equ9:robma-pp}. Further, the prior probabilities of publication-bias-adjusted-models are set to $\pi(\mathsf{M_0}) = \pi(\mathsf{M_1}) = \frac{1}{2}$~\parencite{maier2022}, and are equally distributed across different selection and PET-PEESE models~\parencites{gronau2021, clyde2011, hoeting1999, jeffreys1998}. Finally, summing the models~(\ref{equ5:robma-2w-sel},~\ref{equ6:robma-2w-sel},~\ref{equ8:robam-pp} and~\ref{equ9:robma-pp}) and further assuming the presence or absence of publication bias in equation~\ref{equ1:bma-null-model} and~\ref{equ2:bma-alt-model} which gives a total of $4$ models, aggregates to $24 + 8 + 4 = 36$ RoBMA-PSMA model ensemble.
+
+    \subsubsection{Bayes Factors, $BF_{10}$}\label{subsubsec2.3.2:bayes-factors-$bf_{10}$}
+    Bayesian model averaging is used to aggregate the estimates from individual models based on the prediction precision~\parencites{hinne2020, hoeting1999, leamer1978}. As a result, the contributions of individual models to the model-averaged estimates are consequent on the posterior probability. Thus, we invoke the Bayes rule to update the prior distributions to the posterior distributions of the respective model parameters in equations (\ref{equ1:bma-null-model},~\ref{equ2:bma-alt-model},~\ref{equ3:bayesian-priors},~\ref{equ4:robma-2w},~\ref{equ8:robam-pp} and~\ref{equ9:robma-pp}) using the observed data, $\mathcal{D}$, as follows:
+
+    \begin{align}
+        \pi(\beta_0 | \mathsf{M_0}, \mathcal{D}) &= \frac{\pi(\mathcal{D} | \beta_0, \mathsf{M_0}) \pi(\beta_0 | \mathsf{M_0})}{\int\pi(\mathcal{D} | \beta_0, \mathsf{M_0}) \pi(\beta_0 | \mathsf{M_0}) d\beta_0} = \frac{\pi(\mathcal{D} | \beta_0, \mathsf{M_0}) \pi(\beta_0 | \mathsf{M_0})}{\pi(\mathcal{D} | \mathsf{M_0})} \label{equ10:bayes-rule-null} \\
+        \pi(\beta_1 | \mathsf{M_1}, \mathcal{D}) &= \frac{\pi(\mathcal{D} | \beta_1, \mathsf{M_1})\pi(\beta_1 | \mathsf{M_1})}{\int\pi(\mathcal{D} | \beta_1, \mathsf{M_1}) \pi(\beta_1|\mathsf{M_1}) d\beta_1} = \frac{\pi(\mathcal{D} | \beta_1, \mathsf{M_1}) \pi(\beta_1 | \mathsf{M_1})}{\pi(\mathcal{D} | \mathsf{M_1})} \label{equ11-bayes-rule-alt}
+    \end{align}
+
+    where the denominators $\pi(\beta_0 | \mathsf{M_0})$ and $\pi(\beta_1 | \mathsf{M_1})$ in equations~\ref{equ10:bayes-rule-null} and~\ref{equ11-bayes-rule-alt} respectively denote the marginal likelihoods of each model. That is the average probability of the data for each model and derived by integrating the likelihood function over the prior distribution of the $\vec{\beta}$. Therefore, the marginal likelihoods determine the model's prediction given observed data. As a result, the marginal likelihoods, $\pi(\mathcal{D}  |\mathsf{M_0})$ and $\pi(\mathcal{D} | \mathsf{M_1})$, are essential for hypothesis testing and comparisons of between-model-predictability, $\mathsf{M_0}$ and $\mathsf{M_1}$~\parencite{jefferysberger1992}. This hypothesis testing and model comparisons are facilitated through Bayes Factors, which is the ratio of the marginal likelihoods~\parencites{roudermorey2019, etzwagenmakers2017, kassraftery1995, wrinchjeffreys1921}. Essentially, $BF$ shows the relative support that the models receive from the data. That is, it shows how the prediction from one model surpasses the other:
+
+    \begin{equation}
+        \label{equ12:bayes-factor}
+        BF_{10}=\frac{\pi(\mathcal{D}|\mathsf{M_1})}{\pi(\mathcal{D}|\mathsf{M_0})}
+    \end{equation}
+
+    Thus, a $BF_{10}>1$ shows support for the alternative model, $\mathsf{M_1}$, while a $BF_{10}<1$ shows support for the null model, $\mathsf{M_0}$. Furthermore, the $BF_{10}$ is inherently a continuous measure of the strength of evidence in favour or against the effect, publication bias, and heterogeneity (see~\parencites{bartos2022, leewagenmakers2013, jeffreys1998} for details on $BF_{10}$ rule of thumb).
+
+    We now turn to the prior probability of the specified models, $\pi(\mathsf{M_0})$ and $\pi(\mathsf{M_1})$, in equations~(\ref{equ1:bma-null-model}, ~\ref{equ2:bma-alt-model}, ~\ref{equ5:robma-2w-sel}, ~\ref{equ6:robma-2w-sel}, ~\ref{equ8:robam-pp} and~\ref{equ9:robma-pp}). We again invoke the Bayes rule on the model, $\pi(\mathcal{M})$, to derive the posterior model probabilities:
+
+    \begin{align}
+        \pi(\mathsf{M_0} | \mathcal{D}) &= \frac{\pi(\mathcal{D} | \mathsf{M_0})\pi(\mathsf{M_0})}{\pi(\mathsf{M_0})} \label{equ13} \\
+        \pi(\mathsf{M_1} | \mathcal{D}) &= \frac{\pi(\mathcal{D} | \mathsf{M_1})\pi(\mathsf{M_1})}{\pi(\mathsf{M_1})} \label{equ14}
+    \end{align}
+
+    The common denominator $\pi(\mathcal{D}) = \pi(\mathcal{D} | \mathsf{M_0})\pi(\mathsf{M_0}) + \pi(\mathcal{D} | \mathsf{M_1})\pi(\mathsf{M_1})$ ensures that the sum of the posterior model probabilities $\pi(\mathcal{M} | \mathcal{D}) = 1$. Then, the Bayes factor,
+
+    \begin{equation}
+        \label{equ15:Bayes-Factor}
+        BF_{10} = \frac{\pi(\mathcal{D} | \mathsf{M_1})}{\pi(\mathcal{D} | \mathsf{M_0})} = \dfrac{\frac{\pi(\mathsf{M_1} | \mathcal{D})}{\pi(\mathsf{M_0} | \mathcal{D})}}{\frac{\pi(\mathsf{M_1})}{\pi(\mathsf{M_0})}},
+    \end{equation}
+
+    measures the extent to which the prior model odds (denominator) update to the posterior model odds (nominator). The support for the models that better predict the data is boosted relative to the ones with poor prediction~\parencites{roudermorey2019, wagenmakers2016}. Lastly, we aggregate the vector of the posterior parameter distribution, $\pi(\beta | \mathcal{D})$, with the vector of the null and alternative meta-analytic models, $\mathcal{M}$, weighted by the posterior model distributions, $\pi(\mathcal{M}|\mathcal{D})$~\parencites{jeffreys1935, wrinchjeffreys1921}. That is:
+
+    \begin{equation}
+        \label{equ16}
+        \pi(\beta | \mathcal{D}) = \pi(\beta_0 | \mathsf{M_0}, \mathcal{D}) \pi(\mathsf{M_0} | \mathsf{D_0}) + \pi(\beta_1 | \mathsf{M_1}, \mathcal{D}) \pi(\mathsf{M_1} | \mathsf{D_1}).
+    \end{equation}
+
+    Thus, to distinguish between the models that assume the absence or presence of the effect, equations~\ref{equ12:bayes-factor} and~\ref{equ15:Bayes-Factor} is expanded to accommodate these additional models, and the inclusion Bayes factor for the effect, $BF_{10}:$
+
+    \begin{equation}
+        \label{equ17}
+        BF_{10} = \dfrac{\frac{\sum_{j \in J}(\mathbf{M_i} | \mathcal{D})}{\sum_{i \in I}(\mathbf{M_i} | \mathcal{D})}}{\frac{\sum_{i \in I}(\mathbf{M_i})}{\sum_{j \in J}(\mathbf{M_j})}}
+    \end{equation}
+
+    The nominator denotes the posterior inclusion model odds assuming the effect while the denominator denotes the prior inclusion model odds assuming the effect. In summary, $i \in I$ represents the models that include the treatment effect of the performance of the Nigerian informal sector during and post-COVID, while $j \in J$ represents the models that exclude the effect~\parencites{gronau2021, hinne2020}~\footnote{Further, it is possible to access relative predictive performance of individual models to the overall ensemble to gain specific insights into the DGP. Hence the inclusion Bayes Factor for each individual model can be expressed as $BF_{\vec{\textit{il}}} = \dfrac{\frac{\pi(\mathcal{M_{\text{i}}|\mathcal{D})}}{1 - \pi(\mathcal{M_{\text{i}}|\mathcal{D})}}}{\frac{\pi(\mathcal{M_{\text{i}}})}{1 - \pi(\mathcal{M_{\text{i}}})}}$}. Overall, the vector of the posterior model-averaged parameter estimate, $\beta$, then denotes a mix of distributions of the posterior parameter distributions of each model, $\mathcal{M_{\text{q}}}$, weighted by the posterior model probabilities, $\pi(\mathcal{M_{\text{q}}|\mathcal{D})}:$
+
+    \begin{equation}
+        \label{equ18}
+        \pi(\beta | \mathcal{D}) = \sum_{q = 1}^{Q} \pi(\beta_q | \mathcal{D}) \pi(\mathcal{M_\text{q}} | \mathcal{D}).
+    \end{equation}
 
 
-    \section{RoBMA Results and Discussion}\label{sec4:robma-results-and-discussion}
-    This section reports and discusses the meta-analytic results on how the Nigerian informal sector has faired during and post-COVID era.
+    \section{RoBMA Results and Discussions}\label{sec4:robma-results-and-discussion}
+    This section reports and discusses the meta-analyses results on the performance of the Nigerian informal sector during and post-COVID era. The discussions are based on the correlation coefficients rather than the $cohen's$ $d$ scale, which is referred to where appropriate, especially in the model diagnostics. Further model diagnostics and forest plots are presented in Appendix~\ref{}.
 
-    \subsection{Characteristics of the Informal Sector}\label{subsec4.1:characteristics-of-the-informal-sector}
+    \subsection{Features of the Nigerian Informal Sector}\label{subsec4.1:features-of-the-informal-sector}
+    Figure~\ref{fig2:pandemic-sector-xtics}, panel A shows the count of effect sizes on the performance indicators of the Nigerian informal sector by sector anď location that have investigated in the literature. These are in terms of annual profit, sales and survival. The bulk of the literature focused on annual sales and profit by the services sector during and post-pandemic era. This services sector is hotel, restaurants and hospitality. The survival indicator has received much less attention over these horizons. Also, these other informal sectors have received lesser attention in the literature (agriculture, manufacturing, technology, transport, construction and trading). In panel B, the figure shows that focused sectors and performance indicators are mostly concentrated in Lagos and North-Central Nigeria. Other locations include Yola, Yobe, FCT, and few states in the South and South-Eastern part of the country. The study designs used in this literature are questionnaire and time series designs, dominated by the methods of descriptive statistics, OLS and ANOVA in panels C and D.
+
     \begin{figure}[H]
         \centering
         \includegraphics[width=\textwidth]{figures/fig73_pandemic_sector_xtics}
         \caption{Sector and Location Features of the Data}
         \label{fig2:pandemic-sector-xtics}
     \end{figure}
+%
+%    \begin{figure}[H]
+%        \centering
+%        \includegraphics[width=\textwidth]{figures/fig73a_pandemic_sector_perform}
+%        \caption{Informal Sector Performance Indicators}
+%        \label{fig3:pandemic-sector-method}
+%    \end{figure}
 
-    \begin{figure}[H]
+    \subsection{Beliefs on Informal Sector Performance during COVID}\label{subsec4.2:literature-beliefs-on-informal-sector-performance-during-covid-19}
+    Moreover, during COVID-19, Table~\ref{tab3:literature-beliefs-informal-covid} clearly elucidates the statistics of these performance indicators. The sales indicator show that during COVID, there was about $37$ million units of unsold inventories, albeit, it dissipated quickly as the maximum recorded sales in units were $109$ million, with an average of $57$ million units sold. The table further reports that the literature recorded an average of $63$ million naira growth in the informal sector profits. Thus, the informal sector appear to be resilient during COVID. The minimum loss is $1.04$ billion and the maximum profit is $1.4$ billion naira with a standard deviation $253$ million naira. In terms of the survival indicator, this informal sector boosts of an average cashflow of $555$ million naira during COVID, with a standard deviation of $639$ million naira across sectors. The minimum cashflow is about $5$ million naira and a maximum of almost $3$ billion naira. Overall, the average performance of the informal sector is $73$ million naira returns on investments in the comprising sectors. Thus, the total number of effect sizes collated on informal sector performance during COVID is $n = 130$ with an average sample size of $N = 405$. These statistics are statistically significant as the $t\_stat \geq 31$. Individually, the total number of effect sizes collated on these indicators are $20$, $106$, and $4$ for the profit, sales and survival indicators respectively. These statistics are what we refer to as the literature beliefs. This is also plotted in Figure~\ref{fig4:beliefs-inf-sector-perform-covid}.
+
+    \begin{table}[H]
         \centering
-        \includegraphics[width=\textwidth, height = 5in]{figures/fig73a_pandemic_sector_xtics}
-        \caption{Informal Sector Performance Indicators}
-        \label{fig3:pandemic-sector-xtics}
-    \end{figure}
-
-    \subsubsection{Performance of the Informal Sectors during COVID-19 Pandemic}\label{subsubsec4.2.1:performance-of-the-informal-sectors-during-covid-19-pandemic}
-
-    \subsection{Literature Beliefs on Informal Sector Performance during COVID-19}\label{subsec4.3:literature-beliefs-on-informal-sector-performance-during-covid-19}
+        \caption{Literature Beliefs on Informal Sector Performance during COVID-19}
+        \label{tab3:literature-beliefs-informal-covid}
+        \begin{tabular}{lllllllllll}
+            \toprule
+            indicators          & $\mu$  & sd     & $cohen's$ $d$ & $sdv$   & t\_stat & min      & max     & n   & N      \\
+            \midrule
+            profit              & 63.63  & 252.57 & 122.82        & 506.02  & 964.68  & -1038.00 & 1422.60 & 20  & 611.05 \\
+            sales               & 56.76  & 328.31 & 3.89          & 16.88   & 31.26   & -36.59   & 109.24  & 106 & 365.20 \\
+            survival            & 555.11 & 638.67 & 1109.54       & 1278.14 & 9958.71 & 4.75     & 2938.40 & 4   & 424.75 \\
+            overall performance & 73.15  & 337.72 & 56.21         & 336.57  & 480.33  & -1038.00 & 2938.40 & 130 & 404.85 \\
+            \bottomrule
+        \end{tabular}
+        \begin{minipage}{17cm}
+            \vspace{0.1cm}
+            \small Notes: sd is standard deviation. n is number of effect of sizes. N is the number of observation used in the primary studies. $sdv$ is the standard deviation for $cohen's$ $d$.
+        \end{minipage}
+    \end{table}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width=\textwidth, height = 4in]{figures/fig5_covid_sectperform_beliefs}
-        \caption{Literature Beliefs on Informal Sector Performance during COVID}
+        \caption{Beliefs on Informal Sector Performance during COVID}
         \label{fig4:beliefs-inf-sector-perform-covid}
     \end{figure}
+
+    \subsubsection{RoBMA Results on Informal Sector Performance during COVID-19}\label{subsubsec:robma-results-on-informal-sector-performance-during-covid-19}
+    We the present the Robust Bayesian meta-analysis results on Nigerian informal sector performance during COVID in Table~\ref{tab4:informal-sector-perform-during-covid}. In terms of sales, the RoBMA-PSMA model presents a moderate evidence in favour of a $39\%$ decline in sold units, and a strong for heterogeneity. However, there are strong evidence suggesting publication bias in this effect with $BF_{pb} \geq 1254$. However, when we incorporate the literature beliefs, the results updates on the data to show strong evidence for an average of $44\%$ rise in informal sector sales during the pandemic. Also, there is strong evidence for heterogeneity and no publication bias, $BF_{pb} = 0.000$. For their profits, the RobMA-PSMA results show weak evidence in favour of a $10\%$ average growth and strong evidence for heterogeneity but inconclusive on publication bias, $BF_{pb} = 2.260$. Incorporating literature beliefs shows strong evidence for an average of $67\%$ actual profit growth, heterogeneity and no publication bias, $BF_{pb} = 0.000$. In terms of survival, the RoBMA-PSMA results present a weak evidence against the effect. That is, it is inconclusive on the survival of the Nigerian informal sector, but strong evidence for heterogeneity and publication bias, $BF_{pb} = 48.21$. Incorporating literature updates on the data and models to reveal strong evidences for the effect, heterogeneity, and no publication bias. Hence, the Nigerian informal sector was resilient with a $97\%$ chance of survival in the pandemic. This resilience may be attributed to the rise in food services, accommodation services, IT services, hospitality, digital sales, and health consulting etc. Finally, publication bias characterises the negative RoBMA-PSMA model effect on the overall performance of the informal sector, $BF_{pb} \geq 2647$, albeit, strong evidence for heterogeneity. Figure~\ref{fig5:robma-psma-pmp-covid-sectorperform-posteriors} plots the posterior model probabilities (PMPs) of this effect, heterogeneity and publication bias adjustments. Note, the grey spikes are the prior probabilities whilst the bold spikes are the posteriors. Panel C of this figure shows that studies with insignificant probability values $(p-values \geq 0.5)$ on this subject are almost never published, eliciting the presence of selection bias in this literature. The PET-PEESE plots in panel D shows independence. Panels A and B show the density plots for the effect and heterogeneity. However, incorporating the literature beliefs in the custom-RoBMA models completely adjusts for this selection bias as the panel C in Figure~\ref{fig6:custom-pmp-covid-sectorperform-posteriors} show perfect publication posterior probability across the probability weights. Again, the PET-PEESE plot shows independence signifying no small study bias. Thus, the Nigerian informal sector has a $60\%$ performance during the pandemic with strong evidence for heterogeneity and no publication bias, $BF_{pb} = 0.000$. Figures~\ref{fig7:diagnostics-robma-psma-covid-sectorperform}, and~\ref{fig8:diagnostics-custom-pmp-covid-sectorperform} show the model diagnostics in terms of the iterations, auto-correlation plots, and density plots of the effect. Thus, about $4000$ iterations, and no serial auto-correlations
+
+    \begin{landscape}
+        \begin{table}
+            \centering
+            \caption{Informal Sector Performance during COVID}
+            \label{tab4:informal-sector-perform-during-covid}
+            \begin{tabular}{lllllll}
+                \toprule
+                indicators          & robma\_psma          & $cohen's$ $d$        & $BF_{pb}$ & custom\_robma       & $cohen's$ $d$        & $BF_{pb}$ \\
+                \midrule
+                profit              & $0.103^c (3.1385^a)$ & $0.256^c (4.420^a)$  & $2.260^c$ & $0.671^a (3.194^a)$ & $2.413^a (6.387^a)$ & $0.000^d$ \\
+                sales               & $-0.392^b (1.251^a)$ & $-0.936^b (2.501^a)$ & $1254+^a$ & $0.441^a (1.053^a)$ & $0.996^a (2.106^a)$ & $0.000^d$ \\
+                survival            & $0.063^e (1.304^a)$  & $0.160^c (2.608^a)$  & $48.21^a$ & $0.973^a (3.077^a)$ & $11.501^a (6.155^a)$ & $0.000^d$ \\
+                overall performance & $-0.568^a (2.113^a)$ & $-1.532^a (4.225^a)$ & $2647+^a$ & $0.600^a (1.840^a)$ & $1.536^a (3.269^a)$ & $0.000^d$ \\
+                \bottomrule
+            \end{tabular}
+            \begin{minipage}{19cm}
+                \vspace{0.1cm}
+                \small Notes: Based on their inclusion Bayes Factor: a, b, c means strong, moderate and weak evidence in favour of the effect; d, e, f means strong, moderate and weak evidence against the effect, respectively. $BF_{pb}$ is the inclusion Bayes Factor for publication bias. The mean effect size, $\mu$, is reported and heterogeneity, $\tau$, is in parenthesis.
+            \end{minipage}
+        \end{table}
+    \end{landscape}
 
     \begin{figure}[H]
         \centering
@@ -83,7 +237,7 @@
         \centering
         \includegraphics[width=\textwidth, height = 3.5in]{figures/fig9_covid_sectperform_posteriors_custom}
         \caption{Custom PMP for Informal Sector Performance during COVID}
-        \label{fig6:custome-pmp-covid-sectorperform-posteriors}
+        \label{fig6:custom-pmp-covid-sectorperform-posteriors}
     \end{figure}
 
     \begin{figure}[H]
@@ -100,14 +254,58 @@
         \label{fig8:diagnostics-custom-pmp-covid-sectorperform}
     \end{figure}
 
-    \subsection{Literature Beliefs on Informal Sector Performance Post-COVID-19}\label{subsec4.2:literature-beliefs-on-informal-sector-performance-post-covid-19}
+    \subsection{Beliefs on Informal Sector Performance Post-COVID}\label{subsec4.2:literature-beliefs-on-informal-sector-performance-post-covid-19}
+    The literature belief on the Nigerian informal sector post-pandemic is presented in Table~\ref{tab5:literature-beliefs-informal-postcovid}. This shows that the average sales in units is about $5$ million with a standard deviation of $8.4$ million. The minimum sales is about $160,000$ units and the maximum is $10.3$ million units. These translated to an average profit of $184$ million naira with a deviation of $239$ million naira. The minimum profit is $N250,000$ and maximum is $4.3$ million naira. For the survival indicator, the average cashflow in the informal sector is $6$ million naira with a deviation of $2.3$ million. The minimum and maximum cashflow is $300,000$ and $3$ million, respectively. Thus, the belief on the overall performance of the informal sector is about an average of $58$ million naira returns on investment, with a standard deviation of $146$ million naira. All these statistics are significant as their $t\_stat \geq 29$. The total number of effect sizes collated here is $17$ and an average sample size of $419$. These beliefs are plotted in Figure~\ref{fig9:beliefs-inf-sector-perform-postcovid}.
 
     \begin{figure}[H]
         \centering
         \includegraphics[width=\textwidth, height = 4in]{figures/fig14_postcovid_sectperform_beliefs}
-        \caption{Literature Beliefs on Informal Sector Performance Post-COVID}
+        \caption{Beliefs on Informal Sector Performance Post-COVID}
         \label{fig9:beliefs-inf-sector-perform-postcovid}
     \end{figure}
+
+    \begin{table}[H]
+        \centering
+        \caption{Literature Beliefs on Informal Sector Performance Post-COVID-19}
+        \label{tab5:literature-beliefs-informal-postcovid}
+        \begin{tabular}{lllllllllll}
+            \toprule
+            indicators          & $\mu$  & sd     & $cohen's$ $d$ & $sdv$ & t\_stat & min  & max   & n  & N      \\
+            \midrule
+            profit              & 183.53 & 238.65 & 1.86          & 1.63  & 42.77   & 0.25 & 4.32  & 5  & 469.40 \\
+            sales               & 5.19   & 8.39   & 2.95          & 2.99  & 58.15   & 0.16 & 10.30 & 10 & 405.50 \\
+            survival            & 5.59   & 2.30   & 1.58          & 1.81  & 28.58   & 0.30 & 2.86  & 2  & 363.00 \\
+            overall performance & 57.69  & 145.91 & 2.47          & 2.50  & 50.14   & 0.16 & 10.30 & 17 & 419.29 \\
+            \bottomrule
+        \end{tabular}
+        \begin{minipage}{17cm}
+            \vspace{0.1cm}
+            \small Notes: sd is standard deviation. n is number of effect of sizes. N is the number of observation used in the primary studies. $sdv$ is the standard deviation for $cohen's$ $d$.
+        \end{minipage}
+    \end{table}
+
+    \subsubsection{RoBMA Results on Informal Sector Performance Post-COVID}\label{subsubsec:robma-results-on-informal-sector-performance-post-covid}
+    The meta-analysis results on post-covid performance of the Nigerian informal sector are presented in Table~\ref{tab6:informal-sector-perform-postcovid}. The RoBMA-PSMA results on the informal sector performance individual and overall indicator are all ridden of publication bias, albeit showing moderate and weak evidences of the positive effect, $BF_{pb} \geq 1.510$. Figure~\ref{fig10:robma-psma-pmp-postcovid-sectorperform-posteriors} identifies that this literature also suffer from selection bias based on probability values. Whilst panels A and B plot the denisty for the mean and heterogeneity, panel C reveals that significant studies are published more than $82\%$ of the time. Marginally significant and insignificant studies are published only between $40-60\%$ of the time. On the other hand, the custom-RoBMA models show strong evidences for the positive effect, heterogeneity and no publication bias, $BF_{pb} = 0.000$. Thus, sales grew by an average of $69\%$ higher than during COVID by $25\%$. However, the average profit growth post-pandemic is $57\%$, lower than the profit growth during COVID by $10\%$. Similarly, the survival rate is an average of $46\%$ post-pandemic, significantly lower than that of the COVID era by $51\%$. The reason for this decline could be attributed to the rise in poor governance and insecurity such as banditry and kidnapping that is currently ravaging the country, especially the northern regions. Thus, given that the information on these indicators are dominated by the northern region and Lagos (see~\ref{fig2:pandemic-sector-xtics}), it elicits substantial reflections of the current menace on the Nigerian informal sector. However, the overall performance of the Nigerian informal post-pandemic is $5\%$ higher than the performance during the disease crisis. Furthermore, the post-COVID era is evidently still a short interval with room for substantial improvements in the economy over the coming years, especially post-presidential elections marking a new dispensation of national affairs. Figures~\ref{fig12:diagnostics-robma-psma-postcovid-sectorperform}, and~\ref{fig13:diagnostics-custom-postcovid-sectorperform} show the model diagnostics in terms of the iterations, auto-correlation plots, and density plots of the effect. Thus, about $4000$ iterations, and no serial auto-correlations.
+
+    \begin{table}[H]
+        \centering
+        \caption{Informal Sector Performance Post-COVID}
+        \label{tab6:informal-sector-perform-postcovid}
+        \begin{tabular}{lllllll}
+            \toprule
+            indicators          & robma\_psma         & $cohen's$ $d$       & $BF_{pb}$ & custom\_robma       & $cohen's$ $d$       & $BF_{pb}$ \\
+            \midrule
+            profit              & $0.270^c (0.745^a)$ & $0.648^c (1.490^a)$ & $2.340^c$ & $0.569^a (0.593^a)$ & $1.486^a (1.185^a)$ & $0.000^d$ \\
+            sales               & $0.369^b (0.947^a)$ & $0.952^b (1.893^a)$ & $2.440^c$ & $0.687^a (0.746^a)$ & $1.978^a (1.492^a)$ & $0.000^d$ \\
+            survival            & $0.142^c (0.833^a)$ & $0.339^c (1.666^a)$ & $1.510^c$ & $0.460^a (0.836^a)$ & $1.283^a (1.672^a)$ & $0.000^d$ \\
+            overall performance & $0.269^c (0.911^a)$ & $0.665^c (1.823^a)$ & $5.810^b$ & $0.652^a (0.659^a)$ & $1.759^a (1.317^a)$ & $0.000^d$ \\
+            \bottomrule
+        \end{tabular}
+        \begin{minipage}{19cm}
+            \vspace{0.1cm}
+            \small Notes: Based on their inclusion Bayes Factor: a, b, c means strong, moderate and weak evidence in favour of the effect; d, e, f means strong, moderate and weak evidence against the effect, respectively. $BF_{pb}$ is the inclusion Bayes Factor for publication bias. The mean effect size, $\mu$, is reported and heterogeneity, $\tau$, is in parenthesis.
+        \end{minipage}
+    \end{table}
 
     \begin{figure}[H]
         \centering
@@ -127,15 +325,136 @@
         \centering
         \includegraphics[width=\textwidth, height = 3.5in]{figures/fig11_postcovid_sectorperform_diagnostics}
         \caption{Model Diagnostics for RoBMA-PSMA Post-COVID}
-        \label{fig8:diagnostics-robma-psma-postcovid-sectorperform}
+        \label{fig12:diagnostics-robma-psma-postcovid-sectorperform}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width=\textwidth, height = 3.5in]{figures/fig16_diagnos_postcovid_sectperforn_custom}
         \caption{Model Diagnostics for Custom RoBMA Post-COVID}
-        \label{fig8:diagnostics-custom-postcovid-sectorperform}
+        \label{fig13:diagnostics-custom-postcovid-sectorperform}
     \end{figure}
+
+
+    \section{Bayesian Model Averaging Meta-Regressions}\label{sec4:meta-regression-methods-analyses}
+    Conventional data analysis is based on choosing a single best model upon which inferences are made as if the chosen model were the true model. Although elegant, it is not completely satisfactory as it ignores model uncertainty~\parencites{madigan1995, draper1995, raftery1993, rafteryetal1993}. For instance, the fact that different models and methods were used to calculate different effect sizes in the $1, \dots, K$ studies used for the above meta-analyses foregrounds the crucial need to account for model uncertainty. BMA provides a solution to this problem by averaging across different relevant models and choosing the best one that supports the data. For our purpose, we apply BMA in a meta-regression to determine the sources of heterogeneity on the performance of the Nigerian informal sector during and post-COVID pandemic.
+
+    To achieve this, we start by considering a set of models $\mathcal{M} = [\mathsf{M_1}, \dots, \mathsf{M_k}]$ containing the $n \times 2$ vector of collated effect sizes, $Y_k = [X_{covid}, X_{post-covid}]$\footnote{These mean Nigerian informal sector performance during and post-covid pandemic, respectively.}. Then, $n \times (p+1)$ matrix of ${X}$ predictors defined in Table~\ref{tab2:definition-of-variables}, and an exogenous white noise stochastic process, $\epsilon$. The model is as follows, $Y_k = \beta_0 + \sum_{j = 1}^{p}\beta_j X_j + \epsilon$, where $\beta$ is the $p\times n$ vector of parameters to be estimated and $\mathit{X}_j \subset \mathit{X}_k$ $\forall$ $j = 1,2, \dots, p$ and ${X_k}$ is the vector of all possible predictors. Then, the posterior distribution of $Y_k$ given the data, $\mathcal{D}$, is the average of the posterior distribution under each model, $\sum_{(k = 1)}^p \pi(Y_k | \mathcal{M}, \mathcal{D})$, weighted by the corresponding posterior model probabilities, $\pi(M_k | \mathcal{D})$ as follows:
+
+    \begin{equation}
+        \label{equ19:bma}
+        \pi(Y_k | \mathcal{D}) = \sum_{k = 1}^p \pi(Y_k | \mathsf{M_k}, \mathcal{D}) \pi(\mathsf{M_k} | \mathcal{D})
+    \end{equation}
+
+    Thus, $\pi(\mathsf{M_k} | \mathcal{D}) = \frac{\pi(\mathcal{D} | \mathsf{M_k}) \pi(\mathsf{M_k})}{\sum_{l = 1}^K \pi(\mathcal{D} | \mathsf{M_l}) \pi(\mathsf{M_l})}$ where $\pi(\mathcal{D} | \mathsf{M_k}) = \int\pi(\mathcal{D} | \beta_k, \mathsf{M_k}) \pi(\beta_k | \mathsf{M_k})d \beta_k$ is the marginal likelihood of $\mathsf{M_k}$, and $\pi(\beta_k | \mathsf{M_k})$ is the prior density of $\beta_k$ under $\mathsf{M_k}$, whilst $\pi(\mathcal{D} | \beta_k, \mathsf{M_k})$ is the likelihood, and $\pi(\mathsf{M_k})$, the prior probability of the true model. Note that all probabilities are implicitly conditional on $\mathcal{M}$. Given that little prior information is known about the considered models, we adopt the default priors by assuming that all models are equally likely~\parencite{hoeting1999}. That is,
+
+    \begin{equation}
+        \label{equ20:default-priors}
+        \pi(\mathsf{M_k}) = \prod_{j = 1}^p \pi_{j}^{\delta_{k, j}} (1, \pi_j)^{1, \delta_{k, j}}
+    \end{equation}
+
+    where $\pi_{k, j} \in [0,1]$ is the prior probability that $\beta \neq 0$ in a regression model, and $\delta_{k, j} \in [0,1]$ shows whether or not variable $j$ is included in the model, $\mathsf{M_k}$. Thus, for a uniform prior, we set $\pi_{k, j} = \frac{1}{2}$ $\forall$ $j$ across the model space.
+
+    \subsection{Managing the Summation and Computing the Integral}\label{subsec5.1:managing-the-summation-and-computing-the-integral}
+    To tackle the problem of inexhaustible summation in equation~\ref{equ19:bma} and solve the integral for linear regressions, we apply Occam’s window algorithm~\parencites{madigan1995, madiganraftery1994, rafteryetal1993}. This is because we have discrete predictors in our model setup. This algorithm is of two types – Occam’s window method, and Occam’s razor. First, Occam’s window advances that models that do not provide a substantive prediction of the data should no longer be considered relative to the ones that do. That is, the models that belong to $\mathscr{A'} = \left[{\mathsf{M_k:} \frac{\max \limits_{l}{\pi(\mathsf{M_l} | \mathcal{D})}}{\pi(\mathsf{M_k} |\mathcal{D})} \leqslant C}\right]$ should be excluded from equation~\ref{equ19:bma}, where $C$ is the cut-off usually determined by the researcher. In previously published papers $C = 20$ (see~\parencite{madigan1995, draper1995, raftery1993, rafteryetal1993}). Second is Occam’s razor which states that we exclude models that receive less support from the data than any of their simpler sub-models. That is, we also exclude from equation~\ref{equ19:bma} models that belong to $\mathscr{B} = \left[\mathsf{M_k:} \exists \mathsf{M_l} \in \mathscr{A}, \mathsf{M_l} \subset \mathsf{M_k}, \frac{\pi(\mathsf{M_l} | \mathcal{D})}{\pi(\mathsf{M_k} | \mathcal{D})} > 1 \right]$. Thus, equation~\ref{equ19:bma} is then replaced by equation~\ref{equ21:main-bma}:
+
+    \begin{equation}
+        \label{equ21:main-bma}
+        \pi(Y_k | \mathcal{D}) = \frac{\sum_{\mathsf{M_k} \in \mathscr{A}} \pi(Y_k | \mathsf{M_k}, \mathcal{D}) \pi(\mathcal{D} | \mathsf{M_k}) \pi(\mathsf{M_k})}{\sum_{\mathsf{M_k} \in \mathscr{A}} \pi(\mathcal{D} | \mathsf{M_k}) \pi(\mathsf{M_k)}}
+    \end{equation}
+
+    where $\mathscr{A} = \frac{\mathscr{A'}}{\mathscr{B}}$. This significantly reduces the sum in equation~\ref{equ19:bma}. Then, we apply Occam’s razor and Occam’s window principles to determine the number of models in equation~\ref{equ21:main-bma}. Moreover, to solve the implicit integral in equation~\ref{equ19:bma}, the Laplace method is used to approximate a closed-form integral solution for the marginal likelihood, $\pi(\mathsf{M_k} | \mathcal{D})$. Thus~\cite{taplin1993}, suggests solving $\pi(Y_k | \mathsf{M_k}, \mathcal{D})$ by $\pi(Y_k | \mathsf{M_k}, \hat{\beta}, \mathcal{D})$ where $\hat{\beta}$ is the maximum likelihood estimator (MLE) of the parameter vector $\beta$. This method has been applied by other authors~\parencites{volinsky1997, rafteryetal1996, draper1995}. The results of the above model are presented in the following sections.
+
+    \subsection{Meta-regression Results for Informal Sector Performance during COVID}\label{subsec:meta-regression-results-informal-sector-performance-during-covid}
+    The meta-regression analyses here begin by looking at the correlation matrix of the predictors in the regression models. Highly correlated predictors are thus dropped to avoid collinearity. To save space, the correlation and BMA regression density plots are reported in Appendix~\ref{appendixA}, Figures~\ref{fig48:corrplot-rhe-on-education},~\ref{fig49:corrplot-so-on-education},~\ref{fig50:corrplot-tvr-on-education},~\ref{fig51:corrplot-ics-on-education}, and the regression density plots, Figures~\ref{fig53:bma-densityplot-rhe-on-education-continued},~\ref{fig54:bma-densityplot-so-on-education},~\ref{fig55:bma-densityplot-tvr-on-education}, and~\ref{fig56:bma-densityplot-ics-on-education}. Whereas, the image plots of the regressions are reported here.
+
+    Figure~\ref{fig28:image-bmareg-ea-education} presents the BMA results for the effect of RHE on education in the Global South. The results show that the BMA meta-regressions selected $19$ models and further selected the best-five models based on their Bayesian Information Criterion $(BIC \geq -0.218)$, our choice models for inference. The number of variables used, $nVar = 37$, and the $r^2 = 0.999$. Thus, the predictors explained almost all the heterogeneity in the effect sizes. The cumulative PMP of the best-five models is $cPMP_{m5} = 0.74$ suggesting that these models support the data on the relationship by $74\%$. Hence, the results show that the following reduces the heterogeneity in the effect sizes of the relationship. These are the year of published studies - recent studies - on this relationship; authors whose primary institution is either in a developed or developing country; study designs such as cross-sectional, survey, and panel survey; methodology using 3SLS and probit methods, high citation score and number of citations of the published journals and study, respectively. On the other hand, the following is found to raise the heterogeneity: significant coefficients with high standard errors, panel data and RCT study designs, logit, Heckman and negative-binomial methods, studies that controlled for contextual issues, and type of publishers, impact factor of the published journal, and Q1 indexed journals. This is consistent as RoBMA-PSMA results confirmed the presence of selection bias under this relationship (see Figure~\ref{fig6:robma-psma-pmp-rhe-on-education}, panel C). However, the sample size and causal inference methods such as OLS, IV, PSM, RE, FE, and DD have a neutral effect on the heterogeneity. Thus, the effect sizes on this relationship using these methods are largely homogeneous. Interestingly, the facts that whilst recent studies reduce heterogeneity, controlling for contextual issues raise it; and using causal inference methods have largely homogeneous neutral effects shows how these new studies using causal identification strategies and controlling for contextual issues differ from the previous literature on this relationship that did not. Thus, these types of studies and methods are superior.
+
+    % Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+    \begin{table}[H]
+        \caption{Meta-regression Results for Informal Sector Performance during COVID}
+        \label{tab7:meta-inform-sector-covid}
+        \resizebox{\textwidth}{!}{%
+            \begin{tabular}{@{}lllllllll@{}}
+                \toprule
+                variables                   & $p!=0$ & EV      & SD     & model 1 & model 2 & model 3 & model 4 & model 5 \\ \midrule
+                Intercept                   & 100.00 & 657.30  & 43.38  & 656.88  & 658.14  & 658.62  & 656.88  & 661.05  \\
+                s\_error                    & 5.60   & -1.27   & 14.05  & .       & -22.56  & .       & .       & .       \\
+                sample                      & 5.20   & 0.00    & 0.03   & .       & .       & -0.02   & .       & .       \\
+                sector\_groupsconstruction  & 5.10   & -0.03   & 26.22  & .       & .       & .       & .       & .       \\
+                sector\_groupsmanufacturing & 5.10   & -0.04   & 14.02  & .       & .       & .       & .       & .       \\
+                sector\_groupsservice       & 5.20   & -0.21   & 9.66   & .       & .       & .       & .       & -4.17   \\
+                sector\_groupstechnology    & 5.20   & 0.79    & 17.49  & .       & .       & .       & 15.00   & .       \\
+                sector\_groupstrading       & 5.10   & -0.03   & 17.59  & .       & .       & .       & .       & .       \\
+                sector\_groupstransport     & 5.10   & 0.01    & 26.22  & .       & .       & .       & .       & .       \\
+                publisherAfricanJO          & 100.00 & -642.20 & 73.36  & -642.69 & -633.91 & -643.17 & -642.69 & -642.69 \\
+                publisherAkademiai Kiado    & 100.00 & -660.70 & 85.25  & -661.78 & -648.53 & -654.85 & -661.78 & -661.78 \\
+                publisherAmber Publication  & 100.00 & -655.20 & 74.74  & -655.88 & -655.79 & -642.69 & -655.88 & -655.88 \\
+                publisherARCN               & 100.00 & -634.40 & 84.81  & -635.10 & -627.03 & -630.16 & -635.10 & -635.10 \\
+                publisherCIRD               & 100.00 & -661.00 & 86.19  & -662.70 & -637.96 & -656.11 & -662.70 & -662.70 \\
+                publisherCiteSeer           & 100.00 & -652.90 & 54.85  & -653.98 & -651.10 & -635.56 & -653.98 & -653.98 \\
+                publishercorpernicus        & 100.00 & -656.90 & 73.29  & -657.13 & -657.17 & -653.21 & -657.13 & -657.13 \\
+                publisherCVLI               & 100.00 & -656.50 & 62.75  & -656.81 & -653.56 & -654.21 & -656.81 & -656.81 \\
+                publisherelsevier           & 100.00 & -655.70 & 45.00  & -655.59 & -655.19 & -656.00 & -656.26 & -656.15 \\
+                publishereprajournals       & 100.00 & -651.80 & 72.49  & -653.18 & -653.99 & -623.30 & -653.18 & -656.51 \\
+                publisherFABI               & 100.00 & -656.20 & 111.80 & -656.49 & -650.65 & -656.97 & -656.49 & -656.49 \\
+                publisherijser.org          & 100.00 & 1308.00 & 83.55  & 1303.85 & 1368.46 & 1306.86 & 1303.85 & 1303.85 \\
+                publisherRCMS               & 100.00 & -830.10 & 73.16  & -830.11 & -830.40 & -828.89 & -830.11 & -830.11 \\
+                publisherSAGE               & 100.00 & -653.70 & 62.65  & -653.71 & -653.96 & -652.71 & -653.71 & -653.71 \\
+                publisherSocialscientia     & 100.00 & -654.50 & 82.78  & -656.23 & -656.38 & -622.86 & -656.23 & -656.23 \\
+                publisherSpringer           & 100.00 & -656.00 & 71.62  & -656.67 & -659.80 & -636.06 & -656.67 & -660.83 \\
+                publisherSpringer Nature    & 100.00 & -656.20 & 49.50  & -656.79 & -656.98 & -646.00 & -656.79 & -656.79 \\
+                nVar                        &        &         &        & 17      & 18      & 18      & 18      & 18      \\
+                r2                          &        &         &        & 0.92    & 0.92    & 0.92    & 0.92    & 0.92    \\
+                BIC                         &        &         &        & -243.71 & -239.03 & -238.89 & -238.89 & -238.86 \\
+                post prob                   &        &         &        & 0.58    & 0.06    & 0.05    & 0.05    & 0.05    \\
+                cum post prob               &        &         &        & 0.80    & 0.80    & 0.80    & 0.80    & 0.80    \\
+                nModel                      &        &         &        & 9       & 9       & 9       & 9       & 9       \\ \bottomrule
+            \end{tabular}%
+        }
+        \begin{minipage}{19cm}
+            \vspace{0.1cm}
+            \small Notes. $p!=0$ is the posterior probability value of each variable in \%. EV is the average mean estimate. nVAr is number of selected variables under each model. BIC is the Bayesian Information Criterion. nModel is the number of selected model for the model averaging.
+        \end{minipage}
+    \end{table}
+
+    % Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+    \begin{table}[]
+        \caption{}
+        \label{tab:my-table}
+        \resizebox{\textwidth}{!}{%
+            \begin{tabular}{@{}lllllllll@{}}
+                \toprule
+                variables                   & p!=0   & EV      & SD     & model 1 & model 2 & model 3 & model 4 & model 5 \\ \midrule
+                Intercept                   & 100.00 & -70.46  & 126.85 & -274.05 & 9.44    & 0.57    & 4.76    & 3.23    \\
+                s\_error                    & 100.00 & 33.38   & 2.58   & 33.20   & 33.20   & 33.20   & 33.84   & 34.01   \\
+                designTime series data      & 28.70  & -11.99  & 28.43  & .       & .       & .       & .       & .       \\
+                methodOLS                   & 49.90  & 72.27   & 126.21 & 274.63  & -8.87   & .       & .       & .       \\
+                sector\_groupstrading       & 17.50  & 1.27    & 10.21  & .       & .       & .       & .       & .       \\
+                publisherEconPapers         & 49.90  & 78.60   & 127.60 & 283.49  & .       & 8.87    & .       & .       \\
+                publisherFABI               & 85.60  & -68.70  & 29.12  & -79.01  & -79.01  & -79.01  & -84.83  & -83.73  \\
+                publisherGAE                & 30.80  & -1.76   & 3.38   & .       & .       & .       & -6.56   & .       \\
+                publisherHallmark Universit & 17.40  & -0.98   & 10.16  & .       & .       & .       & .       & .       \\
+                publisheriosrjournals.org   & 77.10  & -207.00 & 136.07 & .       & -283.49 & -274.63 & -292.54 & -294.60 \\
+                publishermnmk.ro            & 27.10  & 9.29    & 26.74  & .       & .       & .       & .       & .       \\
+                nVar                        &        &         &        & 4       & 4       & 4       & 4       & 3       \\
+                r2                          &        &         &        & 1.00    & 1.00    & 1.00    & 1.00    & 1.00    \\
+                BIC                         &        &         &        & -106.10 & -106.10 & -106.10 & -106.10 & -104.60 \\
+                post prob                   &        &         &        & 0.07    & 0.07    & 0.07    & 0.07    & 0.03    \\
+                cum post prob               &        &         &        & 0.31    & 0.31    & 0.31    & 0.31    & 0.31    \\
+                nModel                      &        &         &        & 91      & 91      & 91      & 91      & 91      \\ \bottomrule
+            \end{tabular}%
+        }
+        \begin{minipage}{19cm}
+            \vspace{0.1cm}
+            \small Notes. $p!=0$ is the posterior probability value of each variable in \%. EV is the average mean estimate. nVAr is number of selected variables under each model. BIC is the Bayesian Information Criterion. nModel is the number of selected model for the model averaging.
+        \end{minipage}
+    \end{table}
+
 
 
     \newpage

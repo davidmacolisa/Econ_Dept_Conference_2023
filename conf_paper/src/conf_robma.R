@@ -11,15 +11,12 @@ library(data.table)
 
 # loading dataset
 setwd('./src/')
-isector <- read.csv('./data/conf_econdept_unn.csv') %>%
+isector <- read.csv('./data/conf_econdept_unn.csv', stringsAsFactors = T) %>%
   setnames('s.error', 's_error')
 str(isector)
-# Filtering and generating standard errors and deviations
-isector <- isector %>% select(c(authors, sd, coeficient, s_error, escat, outcome_category, sample,
-								sector_groups, company_loc, method))
-str(isector)
-sum(is.na(isector))
 
+sum(is.na(isector))
+# view(isector$escat)
 # standard deviation. Given binary predictors, wéused (sqrt(sample)*s_error)*1/2
 isector$sd[5:12] <- (sqrt(isector$sample[5:12]) * isector$s_error[5:12]) * (1 / 2)
 isector$sd[15:26] <- (sqrt(isector$sample[15:26]) * isector$s_error[15:26]) * (1 / 2)
@@ -56,10 +53,19 @@ isector <- isector %>% mutate(
   SeD = (sqrt(4 / sample + sd^2 / (2 * sample))) #Se of cohen's D
 )
 
+# Filtering and generating standard errors and deviations
+isector_bma <- isector %>% select(c(sd:escat, sample, authors_inst_loc, design:company_loc, sector_groups, publisher))
+
+isector <- isector %>% select(c(authors, sd, coeficient, s_error, escat, outcome_category, sample,
+								sector_groups, company_loc, method, design))
+str(isector)
+sum(is.na(isector))
+
 # Covid on Nigerian Overall Informal Sector
 unique(isector$escat)
 unique(isector$outcome_category)
 unique(isector$sector_groups)
+unique(isector$design)
 
 # Visualisations -- Appendix
 str(isector)
@@ -70,29 +76,29 @@ bysectorgroup <- isector %>%
   geom_text(aes(label = pct_format(after_stat(count) / sum(after_stat(count)))),
 			position = position_dodge(width = 0.9), vjust = -0.25,
 			stat = 'count', colour = 'black') +
-  facet_grid(~escat) +
+  # facet_grid(~escat) +
   labs(title = 'Performance indicators by sector',
 	   x = 'COVID',
 	   y = 'count of coefficients') +
   theme(legend.position = 'bottom')
 bysectorgroup
 
-# bydesign <- covidisector %>%
-#   ggplot(., aes(x = outcome_category, fill = design)) +
-#   geom_bar(position = 'dodge', col = 'white') +
-#   labs(title = 'COVID on Informal Sectors by Design',
-# 	   x = 'COVID',
-# 	   y = 'count of coefficients') +
-#   theme_bw()
-# bydesign
+bydesign <- isector %>%
+  ggplot(., aes(x = outcome_category, fill = design)) +
+  geom_bar(position = 'dodge', col = 'white') +
+  labs(title = 'Performance indicators by design',
+	   x = 'COVID',
+	   y = 'count of coefficients') +
+  theme_bw()
+bydesign
 
 bymethod <- isector %>%
   ggplot(., aes(x = outcome_category, fill = method)) +
   geom_bar(position = 'dodge', col = 'white') +
-  labs(title = 'Performance indicators by location by Method',
+  labs(title = 'Performance indicators by methods',
 	   x = 'COVID',
 	   y = 'count of coefficients') +
-  facet_grid(~escat) +
+  # facet_grid(~escat) +
   theme_bw()
 bymethod
 
@@ -101,7 +107,7 @@ bycomploc <- isector %>%
   geom_bar(position = 'dodge', col = 'white') +
   labs(title = 'Performance indicators by location',
 	   y = 'count of coefficients') +
-  facet_grid(~escat) +
+  # facet_grid(~escat) +
   theme(legend.position = 'bottom')
 bycomploc
 
@@ -109,19 +115,19 @@ byoutcome <- isector %>%
   ggplot(., aes(x = outcome_category, y = coeficient)) +
   geom_col() +
   facet_grid(~escat) +
-  labs(x = 'Performance') +
-  ggtitle('Performance during and post pandemic') +
+  labs(x = 'Performance', y = 'units (million)') +
+  ggtitle('Informal Sector Performance during and post-COVID') +
   theme_bw()
 byoutcome
 
 library(patchwork)
-pdf(file = './figures/fig73_pandemic_sector_xtics.pdf', width = 18, height = 15)
-bysectorgroup + bycomploc + plot_annotation(tag_levels = 'A') + plot_layout(ncol = 1, nrow = 2)
+pdf(file = './figures/fig73_pandemic_sector_xtics.pdf', width = 20, height = 15)
+bysectorgroup + bycomploc + bydesign + bymethod + plot_annotation(tag_levels = 'A') + plot_layout(ncol = 2, nrow = 2)
 dev.off()
-
-pdf(file = './figures/fig73a_pandemic_sector_xtics.pdf', width = 15, height = 15)
-bymethod + byoutcome + plot_annotation(tag_levels = 'A') + plot_layout(ncol = 1, nrow = 2)
-dev.off()
+#
+# pdf(file = './figures/fig73a_pandemic_sector_perform.pdf', width = 10, height = 5)
+# byoutcome
+# dev.off()
 
 
 # RoBMA-PSMA of Covid on Informal sector performance
@@ -2009,8 +2015,6 @@ postcovid_sales_custom <- update(postcovid_sales_custom,
 
 summary(postcovid_sales_custom, output_scale = 'r', conditional = T)
 interpret(postcovid_sales_custom, output_scale = 'r')
-# Results -- strong evidence for the positive. Thus, on average, Grid electrification increases children's study hours
-# by (0.62*60) = 37.2mins in developing countries.
 
 # Here! Table for the effect (2w, pp, psma, and custom) -- tab4
 
@@ -2110,7 +2114,6 @@ postcovid_survival <- RoBMA(d = postcovidsect_survival$cohenD,
                seed = 1)
 summary(postcovid_survival, output_scale = 'r', conditional = T)
 interpret(postcovid_survival, output_scale = 'r')
-# Results -- Positive but weak evidence for the negative effect. Inconclusive
 
 # Models Overview
 pmp_postcovid_survival <- summary(postcovid_survival, output_scale = 'r', type = 'models')
@@ -2287,8 +2290,6 @@ postcovid_survival_custom <- update(postcovid_survival_custom,
 
 summary(postcovid_survival_custom, output_scale = 'r', conditional = T)
 interpret(postcovid_survival_custom, output_scale = 'r')
-# Results -- strong evidence for the positive. Thus, on average, Grid electrification increases children's study hours
-# by (0.62*60) = 37.2mins in developing countries.
 
 # Here! Table for the effect (2w, pp, psma, and custom) -- tab4
 
@@ -2366,3 +2367,80 @@ petpeese <- plot(postcovid_survival_custom, parameter = "PET-PEESE", output_scal
 pdf(file = './figures/fig72_postcovid_survival_posteriors_custom.pdf', width = 10, height = 6)
 ggarrange(esize, het, selm, petpeese, labels = c('A', 'B', 'C', 'D'), ncol = 2, nrow = 2, font.label = list(face = 'bold'))
 dev.off()
+
+
+### BMA Meta-regression on the Performance of Nigerian Informal Sector during covid ###
+str(isector_bma)
+covid_isector_bma <- isector_bma %>% filter(escat == 'covid')
+y <-  covid_isector_bma %>% pull(coeficient)
+predictors <- covid_isector_bma %>% select(!escat)
+
+# Correlation Plots
+str(predictors)
+predictors$authors_inst_loc <- as.numeric(predictors$authors_inst_loc)
+predictors$design <- as.numeric(predictors$design)
+predictors$method <- as.numeric(predictors$method)
+predictors$company_loc <- as.numeric(predictors$company_loc)
+predictors$sector_groups <- as.numeric(predictors$sector_groups)
+predictors$publisher <- as.numeric(predictors$publisher)
+predictors$sample <- as.numeric(predictors$sample)
+str(predictors)
+
+library(corrplot)
+predictor_corr <- cor(predictors, method = 'spearman') # correlation matrix
+# pdf(file = './figures/fig74_covid_correlation_matrix.pdf', width = 15, height = 10)
+corrplot(cor(predictors), method = 'circle', addCoef.col = T)
+# dev.off()
+
+predictors <- covid_isector_bma %>% select(!c(escat, coeficient, company_loc, sd))
+str(predictors)
+
+library(BMA)
+library(jtools)
+covid_bma <- bicreg(predictors, y, wt = rep(1, length(y)), strict = F, OR = 20, maxCol = 30, drop.factor.levels = F, nbest = 150)
+summary(covid_bma)
+
+# pdf(file = './figures/fig75_image_plot.pdf', width = 15, height = 30)
+imageplot.bma(covid_bma, color = c("blue", "red", "yellow"), order = 'probne0')
+# dev.off()
+
+### BMA Meta-regression on the Performance of Nigerian Informal Sector postcovid ###
+str(isector_bma)
+postcovid_isector_bma <- isector_bma %>% filter(escat == 'postcovid')
+y <-  postcovid_isector_bma %>% pull(coeficient)
+predictors <- postcovid_isector_bma %>% select(!escat)
+
+# Correlation Plots
+str(predictors)
+predictors$authors_inst_loc <- as.numeric(predictors$authors_inst_loc)
+predictors$design <- as.numeric(predictors$design)
+predictors$method <- as.numeric(predictors$method)
+predictors$company_loc <- as.numeric(predictors$company_loc)
+predictors$sector_groups <- as.numeric(predictors$sector_groups)
+predictors$publisher <- as.numeric(predictors$publisher)
+predictors$sample <- as.numeric(predictors$sample)
+str(predictors)
+
+# library(corrplot)
+predictor_corr <- cor(predictors, method = 'spearman') # correlation matrix
+# pdf(file = './figures/fig74_covid_correlation_matrix.pdf', width = 15, height = 10)
+corrplot(cor(predictors), method = 'circle', addCoef.col = T)
+# dev.off()
+predictors <- predictors %>% select(!c(coeficient, authors_inst_loc, company_loc, sample, sd))
+str(predictors)
+
+predictor_corr <- cor(predictors, method = 'spearman') # correlation matrix
+# pdf(file = './figures/fig74_covid_correlation_matrix.pdf', width = 15, height = 10)
+corrplot(cor(predictors), method = 'circle', addCoef.col = T)
+# dev.off()
+
+predictors <- postcovid_isector_bma %>% select(!c(escat, coeficient, authors_inst_loc, company_loc, sample, sd))
+str(predictors)
+# library(BMA)
+# library(jtools)
+postcovid_bma <- bicreg(predictors, y, wt = rep(1, length(y)), strict = F, OR = 20, maxCol = 30, drop.factor.levels = F, nbest = 150)
+summary(postcovid_bma)
+
+# pdf(file = './figures/fig75_image_plot.pdf', width = 15, height = 30)
+imageplot.bma(covid_bma, color = c("blue", "red", "yellow"), order = 'probne0')
+# dev.off()
