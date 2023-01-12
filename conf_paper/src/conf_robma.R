@@ -2388,9 +2388,9 @@ str(predictors)
 
 library(corrplot)
 predictor_corr <- cor(predictors, method = 'spearman') # correlation matrix
-# pdf(file = './figures/fig74_covid_correlation_matrix.pdf', width = 15, height = 10)
+pdf(file = './figures/fig74_covid_correlation_matrix.pdf', width = 15, height = 10)
 corrplot(cor(predictors), method = 'circle', addCoef.col = T)
-# dev.off()
+dev.off()
 
 predictors <- covid_isector_bma %>% select(!c(escat, coeficient, company_loc, sd))
 str(predictors)
@@ -2430,9 +2430,9 @@ predictors <- predictors %>% select(!c(coeficient, authors_inst_loc, company_loc
 str(predictors)
 
 predictor_corr <- cor(predictors, method = 'spearman') # correlation matrix
-# pdf(file = './figures/fig74_covid_correlation_matrix.pdf', width = 15, height = 10)
+pdf(file = './figures/fig75_covid_correlation_matrix.pdf', width = 15, height = 10)
 corrplot(cor(predictors), method = 'circle', addCoef.col = T)
-# dev.off()
+dev.off()
 
 predictors <- postcovid_isector_bma %>% select(!c(escat, coeficient, authors_inst_loc, company_loc, sample, sd))
 str(predictors)
