@@ -7,10 +7,11 @@
 
 # Loading Packages
 library(tidyverse)
+library(expss)
 library(data.table)
 
 # loading dataset
-setwd('./src/')
+setwd('C:/Users/david/OneDrive/Documents/ULMS/PhD/Thesis/conferences/Econ_Dept_Conference_2023/conf_paper/src/')
 isector <- read.csv('./data/conf_econdept_unn.csv', stringsAsFactors = T) %>%
   setnames('s.error', 's_error')
 str(isector)
@@ -53,11 +54,13 @@ isector <- isector %>% mutate(
   SeD = (sqrt(4 / sample + sd^2 / (2 * sample))) #Se of cohen's D
 )
 
-# Filtering and generating standard errors and deviations
+# Filtering and generating 		sector_groups, company_loc, method, design))
+# str(isector)
+# sum(is.na(isector))standard errors and deviations
 isector_bma <- isector %>% select(c(sd:escat, sample, authors_inst_loc, design:company_loc, sector_groups, publisher))
 
-isector <- isector %>% select(c(authors, sd, coeficient, s_error, escat, outcome_category, sample,
-								sector_groups, company_loc, method, design))
+isector <- isector %>% select(c(authors, sd, coeficient, s_error, escat, outcome_category, sample, design,
+								method, sector_groups, company_loc))
 str(isector)
 sum(is.na(isector))
 
@@ -66,6 +69,9 @@ unique(isector$escat)
 unique(isector$outcome_category)
 unique(isector$sector_groups)
 unique(isector$design)
+unique(isector$company_loc)
+str(isector)
+
 
 # Visualisations -- Appendix
 str(isector)

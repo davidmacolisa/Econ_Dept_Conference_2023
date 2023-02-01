@@ -1,13 +1,14 @@
-\documentclass[12pt, english]{article}
+\documentclass[a4paper, 12pt]{article}
 
 %\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{pdfrender, latexcolors} % to darken fonts
 \usepackage[backend = biber, style = authoryear-icomp, citestyle = apa]{biblatex}
 \usepackage{hyperref} % for reference links
 \hypersetup{colorlinks = true, citecolor = blue, linkcolor = blue, urlcolor = blue}
 \newcommand{\shortlink}[1]{\href{https://www.#1}{\texttt{#1}}}
 %\renewcommand{\finentrypunct}{}
+\usepackage{authblk}
+\usepackage{pdfrender, latexcolors} % to darken fonts
 \usepackage{parskip} % for paragraphing
 \usepackage{booktabs} % booktabs table options
 \usepackage{graphicx} % adding graphics
@@ -25,10 +26,17 @@
 \usepackage[doublespacing]{setspace}
 
 
+\title{Nigeria's Informal Sector Performance During and Post-COVID-19 pandemic: A Bayesian Meta-Analysis Approach}
+\author[1]{Chinedu Miracle Nevo}
+\author[2]{Davidmac O. Ekeocha}
+\author[3]{Ekene ThankGod Emeka}
+\author[4]{Kingsley Obinna Odo}
+\author[5]{Ikenna Paulinus Nwodo}
 
-\title{Bayesian Beliefs on the Performance of the Nigerian Informal Sector}
-\author{To be filled}
-
+\affil[1]{The Open University Business School, Walton Hall, Milton Keynes, \break United Kingdom}
+\affil[2]{University of Liverpool, Management School, United Kingdom}
+\affil[2,3,5]{Department of Economics, University of Nigeria, Nsukka, Enugu State, Nigeria}
+\affil[4]{Department of Geography, Coal City University, Enugu State, Nigeria}
 
 \addbibresource{main.bib}
 \begin{document}
@@ -38,19 +46,111 @@
 
     \newpage
     \begin{abstract}
-        Regardless of serving as the ubiquitous resort for most Nigerians, the size and performance of the Nigerian informal are undervalued and mismeasured. The study uses Bayesian beliefs to investigate this performance during and post-pandemic. We found that the informal sector is resilient during COVID due to growth in the demand for alternative services sorted informally by many Nigerians during COVID. Albeit, the performance of the profit and survival indicators appear bleak post-pandemic, the overall performance exhibits a robust post-pandemic outlook. Poor governance, security risk, and mismeasurement are attributable causes of the bleakness. Selection bias characterises this literature, whilst OLS methods, and few publishing journals raise heterogeneity in the results. Policy evolutions towards national integration and a paradigm shift in the measurement framework and providing facilitating regulations are discussed. Of course, amid improving national security.
+        Regardless of serving as the ubiquitous resort for most Nigerians, the size and performance of the Nigeria's informal are undervalued and mismeasured. The study uses Bayesian beliefs to investigate this performance during and post-pandemic. We identified that selection-publication bias characterises the exsiting literature, and highlighted the sources of heterogeneity in the effect sizes. Improper use of the OLS method, and few publishing journals raise heterogeneity in the results in existing literature. Concretely, we found that, albeit ridden with significant fluctuations, the informal sector was resilient during COVID, partly due to growth in the demand for alternative services sorted informally by many Nigerians during the pandemic. Further, whereas we found that the performance of the profit and survival indicators appear bleak post-pandemic, the overall informal sector performance exhibits a robust post-pandemic outlook. Poor governance, insecurity, and mismeasurement are attributable causes of the bleakness. Policy evolutions towards incorporating local fixed effects in regression models, national economic integration of the shadow economy, a paradigm shift in the measurement framework, providing facilitating regulations amid improving national security are discussed.
     \end{abstract}
 
+    \textbf{Keywords:} Informal sector; COVID-pandemic; Bayesian Model Averaging; Meta-Analysis; Publication Bias
 
-    \section{RoBMA and Custom Beliefs}\label{sec2.3:robma-custom-beliefs}
-    Bayesian model averaging meta-analysis requires that effect sizes, $y_k$ in $k = 1, \dots, K$ primary studies follow a gaussian distribution with mean treatment effect, $\mu$, and between-study heterogeneity, $\tau$~\parencite{bartos2021bma}. This enables the determination of the size of the $\mu$ and $\tau$, as well as testing hypotheses of evidence in favour of the presence or absence of the effect and heterogeneity. The robust bayesian meta-analysis with publication selection model averaging methods are used, whilst the incorporation of existing literature findings (custom beliefs) are used to address these hypotheses here. This RoBMA method further tests and accounts for publications bias, $\omega$, which may confound the true effect~\parencite{maier2022, bartos2021}. Following~\parencite{maier2022, bartos2021}, we use the BMA framework to specify the meta-analytic model, $\mathbf{M}: (\mathsf{M_0}, \mathsf{M_1})$ as follows:
+
+    \section{Introduction}\label{sec1:introduction}
+    The coronavirus disease (COVID-19) pandemic emerged in the later part of $2019$ and was first noticed in Wuhan, in the Hubei province of China. The Chinese health authorities referred this new virus as severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2)~\parencite{lalaoui2020could}. The virus depicts a range of clinical manifestations that mostly include dry cough, fatigue and fever~\parencite{shi2020overview}. The virus which spread rapidly across the globe due to its transmissibility~\parencite{weston2020covid} led to many deaths and was declared a pandemic by the World Health Organisation on March 12, 2020 (Ciotti et al., 2020). It also became a critical threat to health all over the world and affected all facets of the global economy (Li et al., 2020). For example, the pandemic has been argued to have caused one of the greatest interruptions to education known to human, as it affected more than 1.6 billion learners from more than 190 countries of the world~\parencite{pokhrel2021literature}. These disruptions mostly came in the form of closure of schools, technical institutes and other learning spaces, thereby impacting over $90\%$ of the global student population~\parencite{karakose2021impact}. This signals a huge impact of the pandemic on global teaching and learning.~\cite{mishra2020online} also reported that the pandemic worsened the already low rate of access to education by children and adolescents globally as schools were closed. Though the authors argue that there were some teaching innovations during the COVID-19 pandemic in many countries of the world, like the use of virtual learning environments, it is easy to see that children in communities without internet connectivity were excluded, thus further emphasising the negative impact of the pandemic on education across the various regions of the world.~\cite{fraser2020preprinting} also examined the impact of the pandemic on research, opining that it temporarily shifted the direction of a large proportion of health research, indicated by the focus of scientific publications. Within the first 10 months of the first confirmed COVID-19 case, more than 125,000 COVID-19-related research articles were published, with so many blogs and news columns solely dedicated to the COVID-19 news. What remained to be seen was whether there was any novelty and genuine contribution to help in tackling the pandemic within the publications, or it was a mere academic ritual. With respect to the global economy, it would suffice to say that the pandemic brought a standstill~\parencite{accikgoz2020early}. For the first time in decades, notable developed countries entered economic recession as an aftermath of the pandemic. It affected both real and nominal income of employees, the purchasing power of customers, global supply chains and financial markets. Other aspects of the global economy affected by the pandemic, as highlighted by~\cite{accikgoz2020early}, include politics, health, science policies, manufacturing and global security. In all of these, Africa was not left out as there was huge sectorial impacts of the pandemic on the region, both on generic terms and within the comprising countries.
+
+    In Africa, the COVID-19 pandemic was met with palpable fears, given the peculiarities of the continent~\parencite{ohia2020covid}. With the high incidence of poverty, low health infrastructure in the continent~\parencite{castaneda2019estimating}, and the high susceptibility of the African population to infectious diseases~\parencite{lone2020covid}, a pandemic of such proportion was largely predicted to cause some serious loss of lives~\parencite{ataguba2020covid} leaving the region as the worst hit by the end of the pandemic~\parencite{ohia2020covid}, but the impacts seem not to play out as predicted. For instance~\cite{haber2020covid}, reported that the risk of COVID-19 transmission in Africa was averagely lower than other regions, though they provided only a scant elaboration for the claim. Despite the lack of clarity regarding the scale of infection on the continent and the mortality rates attributable to the pandemic, there were specific effects on different sectors just like in other continents. The Brooking Institution was one of the foremost organisations that investigated the macroeconomic impacts of the pandemic on African countries using a global hybrid dynamic stochastic general equilibrium and computable general equilibrium models~\parencite{mckibbin2021global}. Their report suggested that the pandemic would have both long-term and short-term impacts on African economics, but that these impacts could be ameliorated with more significant investment in public health system of these African economies, especially the most vulnerable ones where health care systems are less developed, but the density of the population is high~\parencite{ataguba2020covid}. For the oil-producing African countries (Nigeria, Angola, Algeria, Libya and Egypt), the COVID-19 pandemic caused a decrease in the demand for oil products and a subsequent decline in the countries’ total revenue, especially since oil was the mainstay of the economy of most of them~\parencite{ozili2021covid}.
+
+    Another sector that was impacted by the COVID-19 pandemic in Africa and beyond is the informal sector. The literature has suggested that the informal sector of developing countries in Africa bore the largest brunt of the COVID-19 pandemic and that the informal workers in these countries were much more disproportionately affected than the workers in other sectors in the economy~\parencite{guo2022informal}. The informal sector consists of workers who are mostly ignored in the computation of the sectorial contributions to the economy. The workers therein are often self-employed or employed within a largely informal business outfit with no social insurance covering.~\cite{fapohunda2012women} believes that women constitute a significant proportion of the Nigerian informal sector given that they tend to struggle more for employment in the formal sector due to some factors like family responsibilities, skill deficiency and culture.~\cite{onwe2013role} also add that the Nigerian informal sector is often not considered in development policies and national accounting, despite its huge contributions to the economy.
+
+    Returning to the pieces of evidence on COVID-19 impacts on the informal sector, both within and outside Africa, Nanavaty (2020) believe that the income (and by extension, livelihood) of many Indian informal workers ended abruptly immediately the pandemic broke out since the government, through her policies, terminated their business activities while regarding them as nonessential to run in the time of a pandemic.~\cite{komin2021covid} reported same for Thai informal sector workers. For the Indonesian informal workers, the pandemic offered a new experience for dealing with unexpected economic crises due to a pandemic~\parencite{pitoyo2020impacts}. For the South African informal workers, they simply became more vulnerable, unemployed and poor~\parencite{khambule2022covid}. Worse still, the government policies aimed at cushioning the effects of the pandemic in South Africa seemed to ignore the informal sector workers, maybe with the mindset that the informal economy is protected from global economic shocks since it does not operate within the mainstream economic regulations and principles. But this could be flawed because the pandemic was not just a shock, it was more of a global emergency and could be argued to have spared no one. Though~\cite{nnabuife2020diversity} did not identify any specific impact of the pandemic on the Nigerian informal sector, they did opine that it reduced aggregate demand, which when extended, could have affected the productivity within the country’s informal economy.
+
+    From the foregoing, studies from different authors across the globe have suggested that the COVID-19 pandemic impacted the informal sector of nations in various dimensions. However, only few of these studies delved deeper to uncover the nature of these effects. Not least, only a scant number of these works~\parencite{ohia2020covid, ozili2021covid} focused on African countries – or more specifically, Nigeria~\parencite{nnabuife2020diversity}.~\cite{onyebueke2011informal} have also reported that no previous elaborate effort has been made to systematically review the few available Nigerian informal sector literature. They also argued that there is a publication bias against the informal sector subject matter as the available studies tend to focus on significant findings regarding the sector. These imply that there is still a dearth of balanced knowledge regarding the Nigerian informal sector specifically, and its relationship with the COVID-19 pandemic. Such shallow knowledge base regarding the Nigerian informal sector and vis-à-vis the pandemic presents a challenge to policymakers in the country as they have inadequate research to draw from in modelling future economic policies for the country’s informal sector. All these have also created the need for research critically reviewing available documents on the Nigerian informal sector while highlighting the nature of the impact of COVID-19 on the sector.
+
+    Therefore, this study, employing the Bayesian meta-analysis approach to investigate the size and performance of the Nigerian informal during and post-COVID-19 pandemic. The study would also explain what the sources of the publication bias in extant literature about the informal sector discourse are. To achieve this, the following two objectives are presented (1) to investigate how the Nigerian informal sector performed during COVID-19 pandemic and how the sector is performing post-pandemic (2) to highlight the sources of heterogeneity and publication bias in extant literature about the subject. We hope that this study would be useful to the Nigerian government in developing policies to overcome the post-pandemic crisis that may bedevil the country’s informal sector and beyond. The study is structured along the following sections, excluding the introduction: methods, findings and discussion, conclusions and recommendations.
+
+
+    \section{Methods}\label{sec2:methods}
+    Following recent literatures~\parencite{qurat2020meta, mori2020development}, creating a research question is required for meta-analysis related studies. In this section, we define the meta-analysis procedure for reproducibility.
+
+    \subsection{Search strategy and inclusion criteria}\label{subsec2.1:search-strategy-and-inclusion-criteria}
+    The data collection began by reviewing articles solely on the COVID-19 pandemic, livelihoods, and informal sector in Nigeria. Major databases and search engines were consulted (i.e., ScienceDirect, and Google Scholar), using a variety of search terms (i.e., COVID-19 pandemic, informal sector, livelihood) (see table 1). The data set also includes studies focusing on different sector groups (i.e., service, transportation, trading, manufacturing, ITC service, etc.) and then abstracts and titles of the individual studies were evaluated by excluding the irrelevant ones. For inclusion criteria, first we limit our review of empirical studies to publication from 2020 above. The intuition behind this restriction is to strictly focus on the outcome variables at the peak period of the pandemic and afterward. Also, it worth noting that it was not until 2020 that there were recorded cases of covid-19 in Nigeria. Thus, inclusion criteria are justified with the collection of all available studies conducted on assessment of covid-19 pandemic and SME’s activities from year 2020 above. Papers were collected and completed between December 2022 and January 2023 (see Table~\ref{tab1:keywords-search-results}).
+
+    \begin{table}[H]
+        \centering
+        \caption{Keywords and search results}
+        \label{tab1:keywords-search-results}
+        \resizebox{\textwidth}{!}{%
+            \begin{tabular}{@{}llll@{}}
+                \toprule
+                S/N & Search Engine  & Keywords and terms                        & Search Results \\ \midrule
+                1   & Google Scholar & -Covid-19 and livelihood in Nigeria       & 21,300         \\
+                &                & -Covid-19 and firm performance in Nigeria & 40,600         \\
+                &                & -Covid-19 and SME’s in Nigeria            & 17,500         \\
+                &                & -Covid-19 and informal sector in Nigeria  & 32,600         \\
+                2   & Google         & -Covid-19 and informal sector in Nigeria  & 2,550,000      \\
+                &                & -Covid-19 and firm performance in Nigeria & 59,200,000     \\
+                &                & -Covid-19 and SME’s in Nigeria            & 2,330,000      \\
+                &                & -Covid-19 and livelihood in Nigeria       & 3,160,000      \\
+                3   & ScienceDirect  & -Covid-19 and informal sector in Nigeria  & 719            \\
+                &                & -Covid-19 and firm performance in Nigeria & 218            \\
+                &                & -Covid-19 and livelihood in Nigeria       & 199            \\
+                &                & -Covid-19 and SME’s in Nigeria            & 49             \\ \bottomrule
+            \end{tabular}%
+        }
+    \end{table}
+
+    Secondly, due to the heterogeneity of the indicators, the outcome variables were grouped into different categories (i.e., profit, sales, cash flows, and survivals). The outcomes included various interventions from the government, specifically movement restriction, total lockdown, financial assistance, etc. For the same reason, the informal sector was grouped into different sectors (e.g., service, transportation, construction, trading, manufacturing, IT services, etc.); this was done to help determine the direct effect of the pandemic on the sub-sectors. However, due to the scarcity of estimates for equivalent indicators, some sub-sectors were not included. Thirdly, we include varying studies across different states and regions in Nigeria. For, instance we had studies in Lagos, Ogun, Akwa-Ibom and North-Central Nigeria. Other locations include Yola, Yobe, FCT, and a few states in the South and South-Eastern parts of the country. A brief summary of studies identified for meta-analysis is given below.
+
+    \begin{table}[H]
+        \centering
+        \caption{List of studies used in the meta-analysis}
+        \label{tab2:meta-analysis-studies-list}
+        \resizebox{\textwidth}{!}{%
+            \begin{tabular}{@{}ll@{}}
+                \toprule
+                Authors’ Last name (publication year) & Journal Name                                                                     \\ \midrule
+                ~\cite{abayomi2021covid}              & Journal of Good Governance and Sustainable Development in Africa.                \\
+                ~\cite{abideen2020coronavirus}        & Journal of Econs Business Management.                                            \\
+                ~\cite{acee2020covid} (3)             & International Journal of Scientific \& Engineering Research.                     \\
+                ~\cite{ashiru2022relational}          & Industrial Marketing Management                                                  \\
+                ~\cite{akingbade2021covid}            & Acta Economica.                                                                  \\
+                ~\cite{ita2020post}                   & Journal of Humanities and Social Science.                                        \\
+                ~\cite{manishimwe2022customer}        & Journal of Revenue and Pricing Management.                                       \\
+                ~\cite{okoh2022assessment}            & The Journal of Accounting and Management.                                        \\
+                ~\cite{onyebueke2011informal}         & International Journal of Multidisciplinary Research and Explorer.                \\
+                ~\cite{bello2022impact}               & East African Scholars Journal of Economics, Business and Management.             \\
+                ~\cite{aifuwa2020coronavirus}         & Management and Human Resources Research.                                         \\
+                ~\cite{obi2020social}                 & Indonesian Journal of Social and Environmental Issues                            \\
+                ~\cite{nwokocha2021covid}             & SAGE Open                                                                        \\
+                ~\cite{popoola2021work}               & Journal of Management and Social Sciences                                        \\
+                ~\cite{bularafa2021effect}            & Advanced International Journal of Business, Entrepreneurship and SMEs.           \\
+                ~\cite{dane2021effect}                & Journal of Research in Medical and Dental Science.                               \\
+                ~\cite{ekpounobi2022informal}         & EPRA International Journal of Research and Development   (IJRD).                    \\
+                ~\cite{enesi2021effect}               & Open Journal of Business and Management.                                         \\
+                ~\cite{farayibi2020economic}          & European Xtramile Centre of African Studies.                                     \\
+                ~\cite{kadir2021determinants}         & International Journal of Women in Technical Education and Employment             \\
+                ~\cite{okoh2022assessment}            & Journal of Good Governance and Sustainable Development in Africa.                \\
+                ~\cite{olubiyi2022measuring}          & Management \&   Marketing Journal                                                   \\
+                ~\cite{okoh2022assessment}            & Journal of Social Sciences and Humanities                                        \\
+                ~\cite{aburinfrastructure}            & International Journal of Advanced Studies in Business Strategies and Management. \\
+                ~\cite{ohanyereeffects}               & International Journal of Business Systems and Economics                          \\
+                ~\cite{balan2021true}                 & International Society for Plant Pathology and Springer Nature                    \\
+                ~\cite{mogaji2020impact}              & Transportation research interdisciplinary perspectives                           \\ \bottomrule
+            \end{tabular}%
+        }
+    \end{table}
+
+    Studies more relevant to our research question were selected based on the criteria that are listed above. Study characteristics were identified after extraction of abstract information from the finally selected articles. These general study characteristics include i) publication year of the study, ii) study region, iii) research methodology applied, iv) citations of the study, v)  the impact factor of the journal in which study was published, vi) the cite score of the journal, vii) the journal quartile.
+
+    \subsection{Exclusion criteria}\label{subsec2.2:exclusion-criteria-for-the-studies-in-the-meta-analysis-inclusion-criteria}
+    Furthermore, we developed exclusion criteria for studies by which certain relevant studies were excluded from the meta-analysis; i) Papers which are outside the scope of Nigeria were not included in our study, ii) articles not exclusively on the COVID-19 pandemic, livelihoods, and informal sector in Nigeria, iii) articles not published and peer-reviewed (unpublished thesis available on university websites, reports of organizations and working papers) were excluded even if these were found relevant, iv) studies not written in English language were not considered, vi) our study excludes any publications published before the year 2020, vii) our study has not included the research if it is not relevant to the field of economics. viii) Studies that do not relate the effect of the covid-19 pandemic to informal sector activities were not included. Since the adopted articles in the study are combinations of parametric and semi-parametric methodology, the mean values and standard deviation are reported on one side, while the coefficients, standard errors, and level of significance are reported on the other. In addition to these, the sample sizes of the studies differ significantly. The effect size compilation expresses the reported estimates as a percentage change with regard to the respective control mean. This enables comparability across studies with heterogeneous specifications and results (i.e., variables with different metrics or scales; an evaluation period; populations with different variances, among others). Since the control mean or sample sizes are not available in all cases, the effect of rescaling is based on the most appropriate available alternatives, typically the sample outcome mean. In addition, the indicators are adjusted such that they all have the same expected direction of impact. For this exercise, it is important to state that no author cited in the study was contacted to request their data set or code.
+
+    \subsection{RoBMA and Custom Beliefs}\label{sec2.3:robma-custom-beliefs}
+    Bayesian model averaging meta-analysis requires that effect sizes, $y_k$ in $k = 1, \dots, K$ primary studies follow a gaussian distribution with mean treatment effect, $\mu$, and between-study heterogeneity, $\tau$~\parencite{bartos2021bma}. This enables the determination of the size of the $\mu$ and $\tau$, as well as testing hypotheses of evidence in favour of the presence or absence of the effect and heterogeneity. The RoBMA with publication selection model averaging methods are used, whilst the incorporation of existing literature findings (custom beliefs) are used to address these hypotheses. This RoBMA method further tests and accounts for publications bias, $\omega$, which may confound the true effect on the informal sector performance Nigria~\parencite{maier2022, bartos2021}. Following~\parencite{maier2022, bartos2021}, we use the BMA framework to specify the meta-analytic model, $\mathbf{M}: (\mathsf{M_0}, \mathsf{M_1})$ as follows:
 
     \begin{align}
         \mathsf{M_0}: \mu &= \tau = 0 \label{equ1:bma-null-model} \\
         \mathsf{M_1}: \mu &\neq \tau \neq 0 \label{equ2:bma-alt-model}
     \end{align}
 
-    where $\mathsf{M_0} \text{ and } \mathsf{M_1}$ denote the null and alternative models, respectively. Assuming no publication bias, we use the model likelihood function, $\pi \left(\mathcal{D} | \beta, \mathbf{M} \right)$, to specify the default bayesian prior distibutions of $y_k$ as follows:
+    where $\mathsf{M_0} \text{ and } \mathsf{M_1}$ denote the null and alternative models, respectively. Assuming no publication bias, we use the model likelihood function, $\pi \left(\mathcal{D} | \beta, \mathbf{M} \right)$, to specify the default bayesian prior distibutions of $y_k$ as follows, and $\pi$ is the probability function:
 
     \begin{equation}
         \label{equ3:bayesian-priors}
@@ -60,7 +160,7 @@
     where $\beta$ is the model parameter and $\sigma_k^2$ is the standard error of $y_k$~\footnote{For a comprehensive framework of the Bayesian model Averaging (see~\parencite{fragoso2018, gronau2021, hinne2020}. $\mathcal{D}$ denotes $y_k$ and the sample sizes can be used in place of $\sigma_k^{2}$ (see~\cite{bem2011}).}. Given the null model, $\mathsf{M_0}$, equation~\ref{equ3:bayesian-priors} simplifies to $y_k \sim \Phi(\sigma_k^{2})$ such that the treatment effect and heterogeneity is zero. Also, for the alternative model, $\mathsf{M_1}$, equation~\ref{equ3:bayesian-priors} follows a standard normal distribution for the treatment effect, $\mu \sim \Phi(0,1)$, and the inverse-gamma distribution for the between-study heterogeneity, $\tau \sim \gamma^{-1}(1,0.15)$. To incorporate custom or literature beliefs in the alternative model, we set the prior distributions of the effect to be a function of the first and second moments of $y_k$.
 
     \subsection{Publication Bias Adjustments}\label{subsec1.0.1:publication-bias-adjustments}
-    To adjust for publication bias, RoBMA-PSMA combines the methods of the selection methods from the RoBMA-2W model~\parencite{maier2022} and PET-PEESE methods from the RoBMA-PP model~\parencite{bartos2021, bartos2022}. Whilst the selection method adjusts for the bias stemming from the probability values, the PET-PEESE method addresses small study bias by correcting the relationship between effect sizes and the standard error or variances.
+    To adjust for publication bias, RoBMA-PSMA combines the methods of the selection methods from the RoBMA-2W (with RoBMA with two weight functions) model~\parencite{maier2022} and PET-PEESE methods from the RoBMA-PP (RoBMA PET and PEESE) model~\parencite{bartos2021, bartos2022}. Whilst the selection method adjusts for the bias stemming from the probability values, the PET-PEESE method addresses small study bias by correcting the relationship between effect sizes and the standard error or variances.
 
     Then, the RoBMA-2W model uses the weighted likelihood function to incorporate the publication probabilities, $\omega$, into the likelihood function for the observed effect sizes,
 
@@ -107,7 +207,7 @@
         \pi(\beta_1 | \mathsf{M_1}, \mathcal{D}) &= \frac{\pi(\mathcal{D} | \beta_1, \mathsf{M_1})\pi(\beta_1 | \mathsf{M_1})}{\int\pi(\mathcal{D} | \beta_1, \mathsf{M_1}) \pi(\beta_1|\mathsf{M_1}) d\beta_1} = \frac{\pi(\mathcal{D} | \beta_1, \mathsf{M_1}) \pi(\beta_1 | \mathsf{M_1})}{\pi(\mathcal{D} | \mathsf{M_1})} \label{equ11-bayes-rule-alt}
     \end{align}
 
-    where the denominators $\pi(\beta_0 | \mathsf{M_0})$ and $\pi(\beta_1 | \mathsf{M_1})$ in equations~\ref{equ10:bayes-rule-null} and~\ref{equ11-bayes-rule-alt} respectively denote the marginal likelihoods of each model. That is the average probability of the data for each model and derived by integrating the likelihood function over the prior distribution of the $\vec{\beta}$. Therefore, the marginal likelihoods determine the model's prediction given observed data. As a result, the marginal likelihoods, $\pi(\mathcal{D}  |\mathsf{M_0})$ and $\pi(\mathcal{D} | \mathsf{M_1})$, are essential for hypothesis testing and comparisons of between-model-predictability, $\mathsf{M_0}$ and $\mathsf{M_1}$~\parencite{jefferysberger1992}. This hypothesis testing and model comparisons are facilitated through Bayes Factors, which is the ratio of the marginal likelihoods~\parencites{roudermorey2019, etzwagenmakers2017, kassraftery1995, wrinchjeffreys1921}. Essentially, $BF$ shows the relative support that the models receive from the data. That is, it shows how the prediction from one model surpasses the other:
+    where the denominators $\pi(\beta_0 | \mathsf{M_0})$ and $\pi(\beta_1 | \mathsf{M_1})$ in equations~\ref{equ10:bayes-rule-null} and~\ref{equ11-bayes-rule-alt} respectively denote the marginal likelihoods of each model. That is the average probability of the data for each model is derived by integrating the likelihood function over the prior distribution of the $\vec{\beta}$. Therefore, the marginal likelihoods determine the model's prediction given observed data. As a result, the marginal likelihoods, $\pi(\mathcal{D}  |\mathsf{M_0})$ and $\pi(\mathcal{D} | \mathsf{M_1})$, are essential for hypothesis testing and comparisons of between-model-predictability, $\mathsf{M_0}$ and $\mathsf{M_1}$~\parencite{jefferysberger1992}. This hypothesis testing and model comparisons are facilitated through Bayes Factors, which is the ratio of the marginal likelihoods~\parencites{roudermorey2019, etzwagenmakers2017, kassraftery1995, wrinchjeffreys1921}. Essentially, $BF$ shows the relative support that the models receive from the data. That is, it shows how the prediction from one model surpasses the other:
 
     \begin{equation}
         \label{equ12:bayes-factor}
@@ -153,10 +253,10 @@
 
 
     \section{RoBMA Results and Discussions}\label{sec4:robma-results-and-discussion}
-    This section reports and discusses the meta-analyses results on the performance of the Nigerian informal sector during and post-COVID era. The discussions are based on the correlation coefficients rather than the $cohen's$ $d$ scale, which is referred to where appropriate, especially in the model diagnostics. Further model diagnostics and forest plots are presented in Appendix~\ref{appendixA}.
+    This section reports and discusses the meta-analyses results on the performance of the Nigeria's informal sector during and post-COVID era. The discussions are based on the correlation coefficients rather than the $cohen's$ $d$ scale, which is referred to where appropriate, especially in the model diagnostics. Further model diagnostics and forest plots are presented in Appendix~\ref{appendixA}.
 
     \subsection{Features of the Nigerian Informal Sector}\label{subsec4.1:features-of-the-informal-sector}
-    Figure~\ref{fig2:pandemic-sector-xtics}, panel A shows the count of effect sizes on the performance indicators of the Nigerian informal sector by sector and location that have been investigated in the literature. These are in terms of annual profit, sales, and survival. The bulk of the literature focused on annual sales and profit by the services sector during and post-pandemic era. This services sector is hotels, restaurants, and hospitality. The survival indicator has received much less attention over these horizons. Also, these other informal sectors have received lesser attention in the literature (agriculture, manufacturing, technology, transport, construction, and trading). In panel B, the figure shows that focused sectors and performance indicators are mostly concentrated in Lagos and North-Central Nigeria. Other locations include Yola, Yobe, FCT, and a few states in the South and South-Eastern parts of the country. The study designs used in this literature are questionnaire and time series designs, dominated by the methods of descriptive statistics, OLS, and ANOVA in panels C and D.
+    Figure~\ref{fig2:pandemic-sector-xtics}, panel A shows the count of effect sizes on the performance indicators of the Nigerian informal sector by sector and location that have been investigated in the literature. These are in terms of annual profit, sales, and survival. The bulk of the literature focused on annual sales and profit by the services sector during and post-pandemic era. These services sector include hotels, restaurants, and hospitality. The survival indicator has received much less attention over these horizons. Also, some other informal sectors have received lesser attention in the literature (agriculture, manufacturing, technology, transport, construction, and trading). In panel B, the figure shows that focused sectors and performance indicators are mostly concentrated in Lagos and North-Central Nigeria. Other locations include Yola, Yobe, FCT, and a few states in the South and South-Eastern parts of the country. The study designs used in this literature are questionnaire and time series designs, dominated by the methods of descriptive statistics, OLS, and ANOVA in panels C and D.
 
     \begin{figure}[H]
         \centering
@@ -164,7 +264,7 @@
         \caption{Sector and Location Features of the Data}
         \label{fig2:pandemic-sector-xtics}
     \end{figure}
-%
+
 %    \begin{figure}[H]
 %        \centering
 %        \includegraphics[width=\textwidth]{figures/fig73a_pandemic_sector_perform}
@@ -173,12 +273,12 @@
 %    \end{figure}
 
     \subsection{Beliefs on Informal Sector Performance during COVID}\label{subsec4.2:literature-beliefs-on-informal-sector-performance-during-covid-19}
-    Moreover, during COVID-19, Table~\ref{tab3:literature-beliefs-informal-covid} elucidates the statistics of these performance indicators. The sales indicator shows that during COVID, there were about $37$ million units of unsold inventories, albeit, it dissipated quickly as the maximum recorded sales in units were $109$ million, with an average of $57$ million units sold. The table further reports that the literature recorded an average of $63$ million naira growth in the informal sector profits. Thus, the informal sector appear to be resilient during COVID. The minimum loss is $1.04$ billion and the maximum profit is $1.4$ billion naira with a standard deviation of $253$ million naira. In terms of the survival indicator, this informal sector boosts an average cash flow of $555$ million naira during COVID, with a standard deviation of $639$ million naira across sectors. The minimum cash flow is about $5$ million naira and a maximum of almost $3$ billion naira. Overall, the average performance of the informal sector is $73$ million naira returns on investments in the comprising sectors. Thus, the total number of effect sizes collated on informal sector performance during COVID is $n = 130$ with an average sample size of $N = 405$. These statistics are statistically significant as the $t\_stat \geq 31$. Individually, the total number of effect sizes collated on these indicators are $20$, $106$, and $4$ for the profit, sales, and survival indicators respectively. These statistics are what we refer to as literature beliefs. This is also plotted in Figure~\ref{fig4:beliefs-inf-sector-perform-covid}.
+    Moreover, during COVID-19, Table~\ref{tab4:literature-beliefs-informal-covid} elucidates the statistics of these performance indicators. The sales indicator shows that during COVID, there were about $37$ million units of unsold inventories, albeit, it dissipated quickly as the maximum recorded sales in units were $109$ million, with an average of $57$ million units sold. As revealed by the minimum and maximum values, the table further reports that the informal sector fluctuated heavily between a total loss of $1.04$ billion and a total profit of $1.4$ billion naira, respectively. However, the informal sector profit grew at an average of $63$ million naira from $2020$ to $2021$, with a standard deviation of $253$ million naira. Thus, the informal sector appear to be resilient during COVID. In terms of the survival indicator, this informal sector boosts an average cash flow of $555$ million naira during COVID, with a standard deviation of $639$ million naira across sectors. The minimum cash flow is about $5$ million naira and a maximum of almost $3$ billion naira. Overall, the average performance of the informal sector is $73$ million naira returns on investments in the comprising sectors. The total number of effect sizes collated on informal sector performance during COVID is $n = 130$ with an average sample size of $N = 405$. These statistics are statistically significant as the $t\_stat \geq 31$. Individually, the total number of effect sizes collated on these indicators are $20$, $106$, and $4$ for the profit, sales, and survival indicators respectively. These statistics are what we refer to as literature beliefs. This is also plotted in Figure~\ref{fig4:beliefs-inf-sector-perform-covid}.
 
     \begin{table}[H]
         \centering
         \caption{Literature Beliefs on Informal Sector Performance during COVID-19}
-        \label{tab3:literature-beliefs-informal-covid}
+        \label{tab4:literature-beliefs-informal-covid}
         \begin{tabular}{lllllllllll}
             \toprule
             indicators          & $\mu$  & sd     & $cohen's$ $d$ & $sdv$   & t\_stat & min      & max     & n   & N      \\
@@ -203,7 +303,7 @@
     \end{figure}
 
     \subsubsection{RoBMA Results on Informal Sector Performance during COVID-19}\label{subsubsec:robma-results-on-informal-sector-performance-during-covid-19}
-    We then present the Robust Bayesian meta-analysis results on Nigerian informal sector performance during COVID in Table~\ref{tab4:informal-sector-perform-during-covid}. In terms of sales, the RoBMA-PSMA model presents moderate evidence in favour of a $39\%$ decline in sold units, and a strong for heterogeneity. However, there is strong evidence suggesting publication bias in this effect with $BF_{pb} \geq 1254$. However, when we incorporate the literature beliefs, the results update the data to show strong evidence for an average of $44\%$ rise in informal sector sales during the pandemic. Also, there is strong evidence for heterogeneity and no publication bias, $BF_{pb} = 0.000$. For their profits, the RobMA-PSMA results show weak evidence in favour of a $10\%$ average growth and strong evidence for heterogeneity but inconclusive on publication bias, $BF_{pb} = 2.260$. Incorporating literature beliefs shows strong evidence for an average of $67\%$ actual profit growth, heterogeneity and no publication bias, $BF_{pb} = 0.000$. In terms of survival, the RoBMA-PSMA results present weak evidence against the effect. That is, it is inconclusive on the survival of the Nigerian informal sector, but strong evidence for heterogeneity and publication bias, $BF_{pb} = 48.21$. Incorporating literature updates on the data and models to reveal strong evidences for the effect, heterogeneity, and no publication bias. Hence, the Nigerian informal sector was resilient with a $97\%$ chance of survival in the pandemic. This resilience may be attributed to the rise in food services, accommodation services, IT services, hospitality, digital sales, health consulting, etc. Finally, publication bias characterises the negative RoBMA-PSMA model effect on the overall performance of the informal sector, $BF_{pb} \geq 2647$, albeit, strong evidence for heterogeneity. Figure~\ref{fig5:robma-psma-pmp-covid-sectorperform-posteriors} plots the posterior model probabilities (PMPs) of this effect, heterogeneity, and publication bias adjustments. Note, the grey spikes are the prior probabilities whilst the bold spikes are the posteriors. Panel C of this figure shows that studies with insignificant probability values $(p-values \geq 0.5)$ on this subject are seldom published, eliciting the presence of selection bias in this literature. The PET-PEESE plots in panel D show independence. Panels A and B show the density plots for the effect and heterogeneity. However, incorporating the literature beliefs in the custom-RoBMA models completely adjusts for this selection bias as panel C in Figure~\ref{fig6:custom-pmp-covid-sectorperform-posteriors} shows perfect publication posterior probability across the probability weights. Again, the PET-PEESE plot shows independence signifying no small study bias. Thus, the Nigerian informal sector has a $60\%$ performance during the pandemic with strong evidence for heterogeneity and no publication bias, $BF_{pb} = 0.000$. Figures~\ref{fig7:diagnostics-robma-psma-covid-sectorperform}, and~\ref{fig8:diagnostics-custom-pmp-covid-sectorperform} show the model diagnostics in terms of the iterations, auto-correlation plots, and density plots of the effect. Thus, about $4000$ iterations, and no serial auto-correlations
+    We then present the Robust Bayesian meta-analysis results on Nigerian informal sector performance during COVID in Table~\ref{tab4:informal-sector-perform-during-covid}. In terms of sales, the RoBMA-PSMA model presents moderate evidence in favour of a $39\%$ decline in sold units, and a strong for heterogeneity. However, there is strong evidence suggesting publication bias in this effect with $BF_{pb} \geq 1254$. However, when we incorporate the literature beliefs, the results update the data to show strong evidence for an average of $44\%$ rise in informal sector sales during the pandemic. Also, there is strong evidence for heterogeneity and no publication bias, $BF_{pb} = 0.000$. For their profits, the RobMA-PSMA results show weak evidence in favour of a $10\%$ average growth and strong evidence for heterogeneity but inconclusive on publication bias, $BF_{pb} = 2.260$. Incorporating literature beliefs shows strong evidence for an average of $67\%$ actual profit growth, heterogeneity and no publication bias, $BF_{pb} = 0.000$. In terms of survival, the RoBMA-PSMA results present weak evidence against the effect. That is, it is inconclusive on the survival of the Nigerian informal sector, but strong evidence for heterogeneity and publication bias, $BF_{pb} = 48.21$. Incorporating literature updates on the data and models to reveal strong evidences for the effect, heterogeneity, and no publication bias. Hence, the Nigerian informal sector was resilient with a $97\%$ chance of survival in the pandemic. This resilience may be attributed to the rise in food services, accommodation services, IT services, hospitality, digital sales, healthcare consulting, etc. Finally, publication bias characterises the negative RoBMA-PSMA model effect on the overall performance of the informal sector, $BF_{pb} \geq 2647$, albeit, strong evidence for heterogeneity. Figure~\ref{fig5:robma-psma-pmp-covid-sectorperform-posteriors} plots the posterior model probabilities (PMPs) of this effect, heterogeneity, and publication bias adjustments. Note, the grey spikes are the prior probabilities whilst the bold spikes are the posteriors. Panel C of this figure shows that studies with insignificant probability values $(p-values \geq 0.5)$ on this subject are seldom published, eliciting the presence of selection bias in this literature. The PET-PEESE plots in panel D show independence. Panels A and B show the density plots for the effect and heterogeneity. However, incorporating the literature beliefs in the custom-RoBMA models completely adjusts for this selection bias as panel C in Figure~\ref{fig6:custom-pmp-covid-sectorperform-posteriors} shows perfect publication posterior probability across the probability weights. Again, the PET-PEESE plot shows independence signifying no small study bias. Thus, the Nigerian informal sector has a $60\%$ performance during the pandemic with strong evidence for heterogeneity and no publication bias, $BF_{pb} = 0.000$. Figures~\ref{fig7:diagnostics-robma-psma-covid-sectorperform}, and~\ref{fig8:diagnostics-custom-pmp-covid-sectorperform} show the model diagnostics in terms of the iterations, auto-correlation plots, and density plots of the effect. Thus, about $4000$ iterations, and shows no serial auto-correlations in our estimates.
 
     \begin{landscape}
         \begin{table}
@@ -286,7 +386,7 @@
     \end{table}
 
     \subsubsection{RoBMA Results on Informal Sector Performance Post-COVID}\label{subsubsec:robma-results-on-informal-sector-performance-post-covid}
-    The meta-analysis results on post-covid performance of the Nigerian informal sector are presented in Table~\ref{tab6:informal-sector-perform-postcovid}. The RoBMA-PSMA results on the informal sector performance individual and overall indicator are all ridden of publication bias, albeit showing moderate and weak evidences of the positive effect, $BF_{pb} \geq 1.510$. Figure~\ref{fig10:robma-psma-pmp-postcovid-sectorperform-posteriors} identifies that this literature also suffer from selection bias based on probability values. Whilst panels A and B plot the denisty for the mean and heterogeneity, panel C reveals that significant studies are published more than $82\%$ of the time. Marginally significant and insignificant studies are published only between $40-60\%$ of the time. On the other hand, the custom-RoBMA models show strong evidences for the positive effect, heterogeneity and no publication bias, $BF_{pb} = 0.000$. Thus, sales grew by an average of $69\%$ higher than during COVID by $25\%$. However, the average profit growth post-pandemic is $57\%$, lower than the profit growth during COVID by $10\%$. Similarly, the survival rate is an average of $46\%$ post-pandemic, significantly lower than that of the COVID era by $51\%$. The reason for this decline could be attributed to the rise in poor governance and insecurity such as banditry and kidnapping that is currently ravaging the country, especially the northern regions. Thus, given that the information on these indicators are dominated by the northern region and Lagos (see~\ref{fig2:pandemic-sector-xtics}), it elicits substantial reflections of the current menace on the Nigerian informal sector. However, the overall performance of the Nigerian informal post-pandemic is $5\%$ higher than the performance during the disease crisis. Furthermore, the post-COVID era is evidently still a short interval with room for substantial improvements in the economy over the coming years, especially post-presidential elections marking a new dispensation of national affairs. Figures~\ref{fig12:diagnostics-robma-psma-postcovid-sectorperform}, and~\ref{fig13:diagnostics-custom-postcovid-sectorperform} show the model diagnostics in terms of the iterations, auto-correlation plots, and density plots of the effect. Thus, about $4000$ iterations, and no serial auto-correlations.
+    The meta-analysis results on post-covid performance of the Nigerian informal sector are presented in Table~\ref{tab6:informal-sector-perform-postcovid}. The RoBMA-PSMA results on the informal sector performance individual and overall indicator are all ridden of publication bias, albeit showing moderate and weak evidences of the positive effect, $BF_{pb} \geq 1.510$. Figure~\ref{fig10:robma-psma-pmp-postcovid-sectorperform-posteriors} identifies that this literature also suffer from selection bias based on probability values. Whilst panels A and B plot the denisty for the mean and heterogeneity, panel C reveals that significant studies are published more than $82\%$ of the time. Marginally significant and insignificant studies are published only between $40-60\%$ of the time. On the other hand, the custom-RoBMA models show strong evidences for the positive effect, heterogeneity and no publication bias, $BF_{pb} = 0.000$. Thus, sales grew by an average of $69\%$ higher than during COVID by $25\%$. However, the average profit growth post-pandemic is $57\%$, lower than the profit growth during COVID by $10\%$. Similarly, the survival rate is an average of $46\%$ post-pandemic, significantly lower than that of the COVID era by $51\%$. The reason for this decline could be attributed to the rise in poor governance and insecurity such as banditry and kidnapping that is currently ravaging the country, especially the North-Central region. Another attribute of this plunge could be the effects of the End-SARS protest mainly in western Nigeria (particularly Lagos) leading to property destruction and theft. In the East, self-determination agitations championed by the crusaders for Independent People of Biafra (IPOB), may have contributed to the decline. Thus, given that the information on these indicators are dominated by the northern region and Lagos (see Figure~\ref{fig2:pandemic-sector-xtics}), it elicits substantial reflections of the current menace on the Nigeria's informal sector. However, the overall performance of the Nigeria's informal sector post-pandemic is $5\%$ higher than the performance during the disease crisis. Furthermore, the post-COVID era is evidently still a short interval with room for substantial improvements in the economy over the coming years, especially post-presidential elections marking a new dispensation of improved national affairs. Even worse, a deeper plunge given the uncertainty of post-presidential government dispensation, suppose current trajectory of bastardised national affairs is maintained. Figures~\ref{fig12:diagnostics-robma-psma-postcovid-sectorperform}, and~\ref{fig13:diagnostics-custom-postcovid-sectorperform} show the model diagnostics in terms of the iterations, auto-correlation plots, and density plots of the effect. Thus, about $4000$ iterations, and show no serial auto-correlations in our estimates.
 
     \begin{table}[H]
         \centering
@@ -338,9 +438,28 @@
 
 
     \section{Bayesian Model Averaging Meta-Regressions}\label{sec4:meta-regression-methods-analyses}
-    Conventional data analysis is based on choosing a single best model upon which inferences are made as if the chosen model were the true model. Although elegant, it is not completely satisfactory as it ignores model uncertainty~\parencites{madigan1995, draper1995, raftery1993, rafteryetal1993}. For instance, the fact that different models and methods were used to calculate different effect sizes in the $1, \dots, K$ studies used for the above meta-analyses foregrounds the crucial need to account for model uncertainty. BMA provides a solution to this problem by averaging across different relevant models and choosing the best one that supports the data. For our purpose, we apply BMA in a meta-regression to determine the sources of heterogeneity on the performance of the Nigerian informal sector during and post-COVID pandemic.
+    Conventional data analysis is based on choosing a single best model upon which inferences are made as if the chosen model were the true model. Although elegant, it is not completely satisfactory as it ignores model uncertainty~\parencites{madigan1995, draper1995, raftery1993, rafteryetal1993}. For instance, the fact that different models and methods were used to calculate different effect sizes in the $1, \dots, K$ studies used for the above meta-analyses foregrounds the crucial need to account for model uncertainty. BMA provides a solution to this problem by averaging across different relevant models and choosing the best one that supports the data. For our purpose, we apply BMA in a meta-regression to determine the sources of heterogeneity on the performance of the Nigerian informal sector during and post-COVID pandemic. We regress the effect sizes on the following covariates stemming from literature characteristics as defined in Table~\ref{tab7:var-define}.
 
-    To achieve this, we start by considering a set of models $\mathcal{M} = [\mathsf{M_1}, \dots, \mathsf{M_k}]$ containing the $n \times 2$ vector of collated effect sizes, $Y_k = [X_{covid}, X_{post-covid}]$\footnote{These mean Nigerian informal sector performance during and post-covid pandemic, respectively.}. Then, $n \times (p+1)$ matrix of ${X}$ predictors defined in Table~\ref{tab2:definition-of-variables}, and an exogenous white noise stochastic process, $\epsilon$. The model is as follows, $Y_k = \beta_0 + \sum_{j = 1}^{p}\beta_j X_j + \epsilon$, where $\beta$ is the $p\times n$ vector of parameters to be estimated and $\mathit{X}_j \subset \mathit{X}_k$ $\forall$ $j = 1,2, \dots, p$ and ${X_k}$ is the vector of all possible predictors. Then, the posterior distribution of $Y_k$ given the data, $\mathcal{D}$, is the average of the posterior distribution under each model, $\sum_{(k = 1)}^p \pi(Y_k | \mathcal{M}, \mathcal{D})$, weighted by the corresponding posterior model probabilities, $\pi(M_k | \mathcal{D})$ as follows:
+    % Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+    \begin{table}[H]
+        \centering
+        \caption{Variable definition}
+        \label{tab7:var-define}
+        \resizebox{\textwidth}{!}{%
+            \begin{tabular}{@{}lll@{}}
+                \toprule
+                variables     & definitions                                                                             & sources                     \\ \midrule
+                sector\_group & dummy of food, hotel/services, IT, retail, manufacturing, transport,   education, and SMEs & constructed from Literature \\
+                publishers    & dummy of names of journal publishers                                                    & Literatures                 \\
+                sample        & sample size                                                                             & Literatures                 \\
+                s\_error      & standard error                                                                          & Literatures                 \\ \bottomrule
+            \end{tabular}%
+        }
+    \end{table}
+
+    To achieve this, we start by considering a set of models $\mathcal{M} = [\mathsf{M_1}, \dots, \mathsf{M_k}]$ containing the $n \times 2$ vector of collated effect sizes, $Y_k = [X_{covid}, X_{post-covid}]$\footnote{These mean Nigerian informal sector performance during and post-covid pandemic, respectively.}. Then, $n \times (p+1)$ matrix of ${X}$ predictors defined in Table~\ref{tab7:var-define}, and an exogenous white noise stochastic process, $\epsilon$. The model is as follows, $Y_k = \beta_0 + \sum_{j = 1}^{p}\beta_j X_j + \epsilon$, where $\beta$ is the $p\times n$ vector of parameters to be estimated and $\mathit{X}_j \subset \mathit{X}_k$ $\forall$ $j = 1,2, \dots, p$ and ${X_k}$ is the vector of all possible predictors. Then, the posterior distribution of $Y_k$ given the data, $\mathcal{D}$, is the average of the posterior distribution under each model, $\sum_{(k = 1)}^p \pi(Y_k | \mathcal{M}, \mathcal{D})$, weighted by the corresponding posterior model probabilities, $\pi(M_k | \mathcal{D})$ as follows:
 
     \begin{equation}
         \label{equ19:bma}
@@ -452,15 +571,12 @@
 
 
     \section{Conclusions and Policy Discussions}\label{sec:conclusions-and-policy-discussions}
-    The meta-analytic literature review has gained relevance in Economics literature in the past decades. It offers a quantifiable summary of polarised arguments in the literature. This method of a literature review is applied in this paper to harmonise the arguments on the performance of the Nigerian informal sector. We used the RoBMA with literature beliefs and further conducted the BMA meta-regressions to trace the sources of heterogeneity in this literature.
+    The meta-analytic literature review has gained relevance in Economics literature in the past decades. It offers a quantifiable summary of polarised arguments in the literature. This method of a literature review is applied in this paper to harmonise the arguments on the performance of the Nigeria's informal sector. We used the RoBMA methods incorporating literature beliefs and identified the type of publication bias in this literature. We further conducted the BMA meta-regressions to trace the sources of heterogeneity in this literature.
 
-    We focused on the performance of the Nigerian informal sector, comprising the following services: food, hotel, IT, retail, manufacturing, transport, education, and SMEs. The results show that the informal sector was resilient during the pandemic. The mechanism is attributable to the growth in service rendering as alternative means of doing things were been explored by citizens. Albeit, the individual performance indicators (profit and survival) showed slowed growth signs, the informal sector performance exhibited a higher promising growth outlook in the post-covid era than the former. The culture of poor governance, high-security risk in the North, and mismeasurement or undervaluation of the components of the shadow economy in Nigeria. Therefore, the Nigerian government and appropriate stakeholders (e.g., the National Bureau of Statistics) should evolve actionable frameworks to properly integrate the shadow economy into the national economy, equipping it with appropriate regulations that can facilitate further growth of the sector. Furthermore, we identified that selection bias characterises this literature, and also traced the sources of heterogeneity in the effect sizes. Studies using OLS methods with high standard errors, and studies by these publishers, EconPapers, www.ijser.org raises the heterogeneity. Whereas, publishers such as SAGE, Springer, and Elsevier have a counteracting effect on heterogeneity. Thus, policy evolutions on the relationship should be based on studies published by SAGE, Springer, and Elsevier journals, and avoid studies using OLS methods and published by www.ijser.org.
-
-    \newpage
-    \printbibliography
+    We focused on the performance of the Nigeria's informal sector, comprising the following services: food, hotel, IT, retail, manufacturing, transport, education, and SMEs. The results show that the informal sector was resilient during the pandemic, albeit with significant fluctuations. The mechanism is attributable to the growth in service rendering as alternative means of doing things were been explored by citizens and businesses. Albeit, the individual performance indicators (profit and survival) showed slowed-growth signs, the overall informal sector performance exhibited a higher promising growth outlook in the post-covid era than the during the pandemic. The culture of poor governance, high-insecurity in the North, and mismeasurement or undervaluation of the components of the shadow economy in Nigeria are likely reasons for the bleak outlook on individual indicators. Therefore, the Nigerian government and appropriate stakeholders (e.g., the National Bureau of Statistics) should evolve actionable frameworks to properly integrate the shadow economy into the national economy, equipping it with appropriate regulations that can facilitate accelerated growth in the comprising individual sectors. Furthermore, we identified that selection bias characterises this literature, and also traced the sources of heterogeneity in the effect sizes. Studies using OLS methods with high standard errors, and studies by these publishers: EconPapers, and www.ijser.org raises the heterogeneity. Whereas, publishers such as SAGE, Springer, and Elsevier have a counteracting effect on heterogeneity. Thus, policy evolutions on the relationship should be based on studies published by SAGE, Springer, and Elsevier journals, and avoid those published by www.ijser.org. Future studies should avoid using static OLS methods without incorporating important Nigerian-fixed effects in their models.
 
 
-    \section{Appendix: Model Overviews, Forest, and Correlation Plots}\label{appendixA}
+    \section*{Appendix: Model Overviews, Forest, and Correlation Plots}\label{appendixA}
 
     \begin{figure}[H]
         \centering
@@ -476,7 +592,7 @@
     \begin{figure}[H]
         \centering
         \includegraphics[width=\textwidth]{./figures/fig6_covid_sectperform_models_overview_custom}
-        \caption{RoBMA-PSMA Model Overview on Informal Sector Performance in Nigeria during COVID}
+        \caption{Custom-RoBMA Model Overview on Informal Sector Performance in Nigeria during COVID}
         \label{fig15:custom-robma-model-overview-covid}
         \begin{minipage}{10cm}
             \vspace{0.1cm}
@@ -487,7 +603,7 @@
     \begin{figure}[H]
         \centering
         \includegraphics[width=2.5in, height=8in]{./figures/fig3_covid_sectorperform_forestplot}
-        \caption{Custom-RoBMA Forest Pot on Informal Sector Performance in Nigeria during COVID}
+        \caption{RoBMA-PSMA Forest Plot on Informal Sector Performance in Nigeria during COVID}
         \label{fig16:robma-psma-forest-plot-covid}
         \begin{minipage}{10cm}
             \vspace{0.1cm}
@@ -498,7 +614,7 @@
     \begin{figure}[H]
         \centering
         \includegraphics[width=2.5in, height=8in]{./figures/fig8_covid_sectperform_forestplot_custom}
-        \caption{RoBMA-PSMA Forest Plot on Informal Sector Performance in Nigeria during COVID}
+        \caption{Custom-RoBMA Forest Plot on Informal Sector Performance in Nigeria during COVID}
         \label{fig17:custom-robma-forest-plot-covid}
         \begin{minipage}{10cm}
             \vspace{0.1cm}
@@ -520,7 +636,7 @@
     \begin{figure}[H]
         \centering
         \includegraphics[width=4in]{./figures/fig15_postcovid_sectperform_models_overview_custom}
-        \caption{RoBMA-PSMA Model Overview on Informal Sector Performance in Nigeria Post-COVID}
+        \caption{Custom-RoBMA Model Overview on Informal Sector Performance in Nigeria Post-COVID}
         \label{fig19:custom-robma-model-overview-postcovid}
         \begin{minipage}{10cm}
             \vspace{0.1cm}
@@ -532,7 +648,7 @@
         \centering
         \includegraphics[width=3in, height=8in]{./figures/fig12_postcovid_sectorperform_forestplot}
         \caption{Custom-RoBMA Forest Pot on Informal Sector Performance in Nigeria Post-COVID}
-        \label{fig20:robma-psma-forest-plot-covid}
+        \label{fig20:robma-psma-forest-plot-postcovid}
         \begin{minipage}{10cm}
             \vspace{0.1cm}
             \small 1st parentheses: The model prior to posterior probability. 2nd parentheses: The model average and credible intervals. Spikes are the model average and log marginal likelihoods.
@@ -550,11 +666,11 @@
         \end{minipage}
     \end{figure}
 
-    \begin{figure}[p]
+    \begin{figure}[H]
         \centering
         \includegraphics[width = \textwidth]{./figures/fig74_covid_correlation_matrix}
         \caption{Correlation Plot for Informal Sector Performance during COVID}
-        \label{fig22:corrplot-inform-sector-tcovid}
+        \label{fig22:corrplot-inform-sector-covid}
         \begin{minipage}{10cm}
             \vspace{.1cm}
             \small Year, SeEE, FE\_C, N, Design, sample size, Method, and CIssues due to collinearity.
@@ -562,7 +678,7 @@
     \end{figure}
 
 
-    \begin{figure}[p]
+    \begin{figure}[H]
         \centering
         \includegraphics[width = \textwidth]{./figures/fig75_covid_correlation_matrix}
         \caption{Correlation Plot for Informal Sector Performance post-COVID}
@@ -573,5 +689,7 @@
         \end{minipage}
     \end{figure}
 
+    \newpage
+    \printbibliography
 
 \end{document}
